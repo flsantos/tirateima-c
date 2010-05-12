@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="C:/Users/Andrew/Desktop/tirateima.jar"/>
+    <jar path="C:/Users/vinicius/Desktop/tirateima.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/tirateima/deploy.jardesc" exportErrors="true" exportWarnings="false" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
@@ -13,5 +13,4 @@
     <selectedElements exportClassFiles="false" exportJavaFiles="false" exportOutputFolder="true">
         <javaElement handleIdentifier="=tirateima/src"/>
     </selectedElements>
-    <fatjar builder="org.eclipse.jdt.ui.plain_jar_builder" launchConfig=""/>
 </jardesc>

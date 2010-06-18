@@ -33,6 +33,12 @@ import tirateima.gerador.TypeId;
 import tirateima.gerador.VarDefinition;
 
 public class TiraTeimaParser {
+
+	/* Trata a string caractere a caractere, e troca as substrings de caracteres de escape 
+	*	por apenas um caractere de escape
+	*	@param s A string a ser tratada
+	*	@return Uma nova string com os caracteres que necessitam de tratamento já tratados
+	*/
 	private String tratarString(String s) {
 		char chars[] = s.toCharArray();
 		StringBuffer buffer = new StringBuffer();
@@ -66,6 +72,11 @@ public class TiraTeimaParser {
 		return buffer.toString();
 	}
 	
+	/* Trata uma string que seja um caractere, trocando as o valor por um caracteres de 
+	*		escape, se necessário
+	*	@param s A string a ser tratada como um caractere
+	*	@return Um novo caractere já tratado, caso tenha sido encontrado um literal
+	*/
 	private Character tratarChar(String s) {
 		char chars[] = s.toCharArray();
 		
@@ -96,8 +107,9 @@ public class TiraTeimaParser {
 }
 PARSER_END(TiraTeimaParser)
 
-/* Um passo é uma indicação de linha seguida de um comando:
-   [line] <nro linha> <comando> */
+	/* Um passo é uma indicação de linha seguida de um comando:
+  	*	[line] <nro linha> <comando> 
+  	*/
 Step step() : {
 	Token t;
 	Step p;
@@ -113,7 +125,9 @@ Step step() : {
 	)
 }
 
-/* Um comando é um dos comandos básicos ou é um bloco de comandos */
+	/*	Um comando é um dos comandos básicos ou é um bloco de comandos
+	*	@param p Um Step lido do arquivo
+	*/
 void command(Step p) : {}
 {
 	<SEMICOLON> |
@@ -128,6 +142,9 @@ void command(Step p) : {}
 	bloco(p)
 }
 
+	/*	Cria um novo tipo, criando uma lista com as variáveis que compõem este tipo
+	*	@param p Um Step lido do arquivo
+	*/
 void cmd_new_type(Step p) : {
 	Token t_name;
 	String name;
@@ -146,6 +163,9 @@ void cmd_new_type(Step p) : {
 	}
 }
 
+	/*	Gera um objeto list de VarDefinition's com as variáveis solicitadas
+	*	@return Uma lista com as N variáveis solicitadas.
+	*/
 List<VarDefinition> new_vars() : {
 	Type type;
 	VarDefinition v;
@@ -158,6 +178,9 @@ List<VarDefinition> new_vars() : {
 	<SEMICOLON>{return vars;}
 }
 
+	/*	Retorna um objeto com o tipo selecionado, com base na KW encontrada
+	*	@return Um objeto com o tipo selecionado
+	*/
 Type type() : {
 	Token t;
 }
@@ -172,6 +195,9 @@ Type type() : {
 	)
 }
 
+	/*	Gera apenas uma VarDefinition já configurando cor interna e externa, tamanho e posição
+	*	@return Uma VarDefinition com a variável.
+	*/
 VarDefinition new_var(Type type) : {
 	Token t_name_var;
 	Index i = null;
@@ -192,6 +218,9 @@ VarDefinition new_var(Type type) : {
 	}
 }
 
+	/*	Cria e retorna um objeto de cor interna para a variável
+	*	@return Um objeto Color com a cor da variável
+	*/
 Color cor() : {
 	Token t_value;
 	int r=0;
@@ -213,6 +242,9 @@ Color cor() : {
 	<CLOSE_PAR>{return new Color(r,g,b);}
 }
 
+	/*	Cria e retorna um objeto de cor a ser utilizado para a cor externa da variável
+	*	@return Um objeto Color com a cor externa da variável
+	*/
 Color corExterna() : {
 	Token t_value;
 	int r=0;
@@ -234,6 +266,9 @@ Color corExterna() : {
 	<CLOSE_PAR>{return new Color(r,g,b);}
 }
 
+	/*	Retorna um objeto Dimension com os dados do tamanho da variável na GUI
+	*	@return O objeto Dimension para formatar o tamanho da variável.
+	*/
 Dimension dimensao() : {
 	Token t_value;
 	int largura=0;
@@ -251,6 +286,9 @@ Dimension dimensao() : {
 	<CLOSE_PAR>{return new Dimension(largura,altura);}
 }
 
+	/*	Cria um Point para posicionar o objeto na GUI, com base nos valores passados.
+	*	@return O objeto Point para ser utilizado no posicionamento da variável.
+	*/
 Point posicao() : {
 	Token t_value;
 	int x=0;

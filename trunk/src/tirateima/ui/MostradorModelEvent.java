@@ -20,7 +20,11 @@ public class MostradorModelEvent extends EventObject {
 	private ComponenteTT removed;
 	private ComponenteTT previous;
 	private ComponenteTT updated;
-
+	/**
+	 * Método Contrutor (?)
+	 * @param source
+	 * @param type
+	 */
 	public MostradorModelEvent(MostradorModel source, int type) {
 		this(source, type, null, null, null, null);
 	}

@@ -19,7 +19,8 @@ package tirateima;
 
 /**
  * Um par de objetos.
- * 
+ * @param A
+ * @param B
  * @author felipe.lessa
  *
  */

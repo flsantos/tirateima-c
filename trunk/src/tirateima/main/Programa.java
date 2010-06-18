@@ -48,18 +48,29 @@ public class Programa extends JFrame {
 	private Principal principal;
 	
 	/**
-	 * Cria uma nova janela do programa.
+	 * Método Construtor que inicializa e cria os componentes vazios.
 	 */
 	private Programa() throws Exception {
 		super("Tira-Teima");
 		principal = new Principal();
 		inicializar();
 	}
-	
+	/**
+	 * Método construtor que recebe 2 strings com os caminhos dos arquivos de parâmetros
+	 * Cria e inicializa os componentes
+	 * @param arq_fonte Arquivo Fonte .PAS
+	 * @param arq_texto Arquivo Texto .TXT
+	 */
 	public Programa(String arq_fonte, String arq_texto) throws Exception{
 		this(new FileReader(arq_fonte), new FileReader(arq_texto));
 	}
-	
+	/**
+	 * Método Construtor que lê caracteres com os nome dos arquivos fonte e texto.
+	 * Cria e inicializa os componentes
+	 * @param fonte Streamer com o texto do arquivo fonte
+	 * @param texto Streamer com o texto do arquivo texto
+	 * @throws Exception
+	 */
 	public Programa(Reader fonte, Reader texto) throws Exception{
 		super("Tira-Teima");
 		principal = new Principal(fonte, texto);
@@ -96,7 +107,7 @@ public class Programa extends JFrame {
 	
 	/**
 	 * Função principal, responsável por iniciar o programa.
-	 * @param args  os argumentos do programa. (ignorado)
+	 * @param args  Recebe como argumento uma String[2] com o nome do arquivo .pas em String[0] e o roteiro.txt[1] 
 	 * @throws IOException 
 	 * @throws Exception 
 	 */
@@ -105,6 +116,10 @@ public class Programa extends JFrame {
 		Programa programa;
 		String msg = null;
 		int msg_type = JOptionPane.ERROR_MESSAGE;
+// 		args = new String[2];
+//		args[0] = "testes/programa6.pas";
+//		args[1] = "testes/roteiro6.txt"; 
+		
 		
 		if (args.length > 0) {
 			String arq_texto, arq_fonte;

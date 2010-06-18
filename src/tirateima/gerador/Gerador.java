@@ -16,7 +16,9 @@ import tirateima.parser.ParseException;
 import tirateima.parser.TiraTeimaParser;
 
 /**
- * Um gerador de estados para o tirateima.
+ * Um gerador de estados para o tirateima. 
+ * Ele chama o parser para pegar os passos do programa. Cria, então, uma lista de estados.
+ * Esses estados posteriormente serão chamados pelo controlador para a execução do programa.
  * 
  * @author Luciano Santos
  * @author Andrew Biller
@@ -45,7 +47,7 @@ public class Gerador {
 	
 	
 	/**
-	 * Constrói um novo gerador.
+	 * Constrói um novo gerador. Recebe cada uma dos componentes gráficos da tela do tirateima para poder setar seus estados.
 	 * 
 	 * @param mostrador
 	 * @param editor
@@ -68,9 +70,11 @@ public class Gerador {
 	
 	/**
 	 * Analisa um arquivo de comandos do Tira-Teima e gera a lista de estados.
+	 * Recebe um arquivo reader a ser lido, inicializa o parser e chama o 
+	 * parser para ler passo a passo o roteiro do programa.
 	 *  
 	 * @param reader
-	 * @return
+	 * @return List<Estado> uma lista de destados.
 	 * @throws TiraTeimaLanguageException
 	 * @throws ParseException
 	 */
@@ -79,30 +83,42 @@ public class Gerador {
 		declared_functions = new HashMap<String, FunctionDeclaration>();
 		
 		TiraTeimaParser parser = new TiraTeimaParser(reader);
-		
+		/** Inicializa a lista de estados e os passos a serem executados sobre a variável step */
 		Step step;
 		List<Estado> result = new ArrayList<Estado>();
+		/** Enquanto o parser ler um passo e retorná-lo */
 		while ((step = parser.step()) != null) {
+			/** Imprime o passo para fins de depuração */
 			System.out.println(step.toString());
+			/** Para cada passo gerado */
 			for (Command c : step.commands) {
+				/** Executa os comandos contidos no passo */
 				c.execute(this);
 			}
+			/** Salva o estado de cada componente para a linha informada, agregando mais um estado à lista de estados. */
 			saveState(result, step.line);
 		}
 		
 		return result;
 	}
 	
+	/**
+	 * Salva um estado na lsita de estados.
+	 * Recebe a lista de estados e um número de linha para aquele estado, cria e salva o novo estado.
+	 * @param states
+	 * @param line
+	 */
 	private void saveState(List<Estado> states, int line) {
-		editor_texto.getCaixaTexto().setMarcada(line);
-		
+		/** Cria um novo estado */
 		Estado e = new Estado();
+		/** Coloca no estado criado a condição de cada elemento gráfico do tirateima. */
+		editor_texto.getCaixaTexto().setMarcada(line);
 		e.est_mostrador = mostrador.getEstado();
 		e.est_editor = editor_texto.getEstado();
 		e.est_console = console.getEstado();
 		e.est_alerta = alerta.getEstado();
 		e.est_ga = ga.getEstado();
-		
+		/** Adiciona o estado criado à lista de estados. */
 		states.add(e);
 	}
 }

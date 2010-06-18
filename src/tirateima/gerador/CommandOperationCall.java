@@ -35,6 +35,11 @@ public class CommandOperationCall extends Command
 		this.args = args;
 	}
 	
+	/**
+	 * Implementa o execute herdado do comando.
+	 * 
+	 * Recebe os tipos de operações e as executa.
+	 */
 	public void execute(Gerador g)
 			throws TiraTeimaLanguageException {
 		
@@ -73,13 +78,22 @@ public class CommandOperationCall extends Command
 		}
 	}
 
+	/**
+	 * Recebe um gerador e argumentos e retorna um arquivo.
+	 * 
+	 * Usada para pegar o arquivo do gerenciador de arquivos.
+	 * @param g
+	 * @param args
+	 * @return
+	 * @throws TiraTeimaLanguageException
+	 */
 	private AbstractArquivo getFile(Gerador g, List<Object> args)
 			throws TiraTeimaLanguageException {
 		ListIterator<Object> i = args.listIterator();
 		if (!i.hasNext())
 			gerarErro("Nome de arquivo era esperado");
 		
-		//checa se o primeiro é um arquivo
+		/** checa se o primeiro é um arquivo*/
 		Object obj = i.next();
 		if (obj instanceof Stack<?>){
 			Stack<Object> stack = (Stack<Object>) obj;
@@ -96,6 +110,18 @@ public class CommandOperationCall extends Command
 		return null;
 	}
 
+	/**
+	 * Executa uma operação de arquivo.
+	 * 
+	 * Recebe um tipo de operação sobre o arquivo e gera erro se houver problema. 
+	 * Caso não haja erro, executa a operação solicitada sobre o arquivo.
+	 * 
+	 * @param g
+	 * @param cmd
+	 * @param arq
+	 * @param args
+	 * @throws TiraTeimaLanguageException
+	 */
 	private void executeFileOperation(
 			Gerador g,
 			Token cmd,
@@ -139,18 +165,27 @@ public class CommandOperationCall extends Command
 		}
 	}
 
+	/**
+	 * Executa operação de leitura do arquivo solicitada pelo usuário. 
+	 * @param g
+	 * @param cmd
+	 * @param arq
+	 * @param args
+	 * @throws TiraTeimaLanguageException
+	 * @throws Exception
+	 */
 	private void executeReadOperation(
 			Gerador g,
 			Token cmd,
 			AbstractArquivo arq,
 			List<Object> args) throws TiraTeimaLanguageException, Exception {
-		//verifica número de parâmetros
+		/** verifica número de parâmetros */
 		int size = args.size();
 		if ((size < 1) || (size > 2)) {
 			gerarErro("Número de parâmetros incorreto para comando 'read'.");
 		}
 		
-		//pega o tipo da variável a ser lida
+		/** pega o tipo da variável a ser lida */
 		Object first = args.get(0);
 		if (!(first instanceof Stack))
 			gerarErro("Era esperada uma variável.");
@@ -200,6 +235,13 @@ public class CommandOperationCall extends Command
 		setValue(g.mostrador, (Stack) first, value);
 	}
 	
+	/**
+	 * Executa operação de escrita no arquivo.
+	 * @param g
+	 * @param cmd
+	 * @param arq
+	 * @param args
+	 */
 	private void executeWriteOperation(
 			Gerador g,
 			Token cmd,
@@ -234,6 +276,12 @@ public class CommandOperationCall extends Command
 		}
 	}
 	
+	/**
+	 * Executa a operação de alerta mostrando um alerta no tirateima 
+	 * @param g
+	 * @param cmd
+	 * @param args
+	 */
 	private void executeAlertOperation(
 			Gerador g,
 			Token cmd,
@@ -253,6 +301,11 @@ public class CommandOperationCall extends Command
 		}
 	}
 	
+	/**
+	 * Executa operação de som, tocando um som para o usuário.
+	 * @param g
+	 * @param cmd
+	 */
 	private void executeSoundOperation(
 			Gerador g,
 			Token cmd) {

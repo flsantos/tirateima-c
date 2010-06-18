@@ -63,6 +63,7 @@ public abstract class Command {
 		Variavel v = null;
 		Index i;
 		
+		/** Cria uma nova variável de acordo com seu tipo */
 		Type t = var_def.getType();
 		switch (t.getId()) {
 			case INTEGER:
@@ -89,7 +90,7 @@ public abstract class Command {
 						var_def.getcorExterna(), var_def.getDimension(), var_def.getPosicao());
 				break;
 		}
-		
+		/** Se houver variável, define seus parâmetros de visualização */
 		if ((i = var_def.getIndex()) != null) {
 			try {
 				if (i.isMatrix) {
@@ -106,7 +107,7 @@ public abstract class Command {
 				gerarErro("Falha ao criar variável '" + var_def.getName() + "'.");
 			}
 		}
-	
+		/** Retorna a nova variável formatada. */
 		return v;
 	}
 	

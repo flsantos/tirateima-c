@@ -14,6 +14,9 @@ public class CommandNewVarText extends Command {
 		this.name = name;
 	}
 	
+	/**
+	 * Executa o comando de nova variável de texto, adicionando a variável criada ao gerenciador de arquivo.
+	 */
 	public void execute(Gerador g)
 			throws TiraTeimaLanguageException {
 		VarText arq = new VarText(name);

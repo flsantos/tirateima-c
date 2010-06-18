@@ -33,7 +33,10 @@ public class Step {
 	public void addCommand(Command command) {
 		commands.add(command);
 	}
-	
+	/**
+	 * Sobrescreve o toString do objeto facilitando a depuração uma vez que o formato fica mais familiar
+	 * Formato:  <linha> : <comando_executado> 
+	 */
 	public String toString() {
 		return line + ": " + commands.toString();
 	}

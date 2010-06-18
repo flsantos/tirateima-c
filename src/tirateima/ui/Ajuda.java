@@ -21,6 +21,7 @@ public class Ajuda extends Applet implements java.awt.event.ActionListener {
 	
 	/**
 	 * Abre a url de ajuda se estiver rodando via applet ou application
+	 * @param e Evento
 	 */
 	public void actionPerformed(ActionEvent e) {
 		try{
@@ -52,9 +53,10 @@ public class Ajuda extends Applet implements java.awt.event.ActionListener {
 
 	
 	/**
-	 * Abre uma janela do browser com a url especificada
+	 * Abre uma janela do browser com a url especificada.
+	 * MAC e Win abre com o Browser padrao, no Linux ele tenta pelos browsers mais conhecidos.
 	 * @param url
-	 * @return
+	 * @return False caso não seja possível abrir a url em algum browser
 	 */
 	private static boolean showInBrowser(String url){
     	String os = System.getProperty("os.name").toLowerCase();
@@ -89,7 +91,7 @@ public class Ajuda extends Applet implements java.awt.event.ActionListener {
     
 	/**
 	 * Recupera o diretório do tirateima
-	 * @return diretório físico do tirateima
+	 * @return Uma String com diretório físico do tirateima.
 	 */
     private String getCurrentDir() {
         File dir1 = new File (".");

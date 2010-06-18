@@ -37,7 +37,9 @@ public abstract class AbstractMostradorModel implements MostradorModel {
 		this.components = components;
 	}
 
-	
+	/**
+	 * Adiciona 
+	 */
 	public void addMostradorModelListener(MostradorModelListener l) {
 		assert (l != null);
 

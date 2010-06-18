@@ -1,4 +1,7 @@
 /**
+ * Classe abstrata que define o tipo Estado.
+ * É definido os seguintes Objetos como atributos do Estado:
+ * est_mostrador, est_editor, est_console, est_alerta, est_ga * 
  * @author Renan Leandro Ferreira
  */
 package tirateima.controlador;

@@ -10,7 +10,11 @@ import javax.swing.JTextField;
 
 import tirateima.IEstado;
 
-
+/**
+* Classe que fornece os métodos de controle da execução do programa tirateima
+* Carrega cada estado que será mostrado em tela a partir de botões definidos e a lista de estados.
+* @Author Luciano Santos e Ian Schechtman
+*/
 public class Controlador {
 	/*Botões de navegação.*/
 	private JButton btnAnt;
@@ -30,7 +34,20 @@ public class Controlador {
 	
 	/*Índice para controle da lista de estados. */
 	private int indice;
-	
+	/**
+	*Método contrutor único/default.
+	*@param estados Array contendo a lista de estados que o programa executará.
+	*@param mostrador
+	*@param ga Objeto gráfico onde o programa desenhará o menu
+	*@param editor
+	*@param console
+	*@param alerta
+	*@param btnAnt Botao que retorna ao estado anterior
+	*@param btnProx Botao que anvança ao próximo estado
+	*@param btnReiniciar Botao que reinicia a execução
+	*@param btnPular Botao para pular à linha informado pelo usuário na caixa txtLinha
+	*@param txtLinha Caixa de texto que serve de argumento ao botao pular linha.
+	*/
 	public Controlador(List<Estado> estados,
 	                IEstado mostrador, IEstado ga,
 	                IEstado editor, IEstado console,
@@ -104,7 +121,12 @@ public class Controlador {
         
         ajustarBotoes();
 	}
-	
+	/** 
+	* Método ajusta os botoes do controle.
+	* Botão Anterior, Reiniciar -> Ativa quando estiver depois do primeiro estado.
+	* Botão Pular -> Define de forma se ativado ou desativado
+	* Botão Próximo -> No primeiro estado define como o rótulo "Iniciar" e enquanto não estiver no último estado fica ativo com o Rótulo "Próximo"
+	*/
 	private void ajustarBotoes(){
 		/* Ativar/desativar botão "Anterior" */
 		btnAnt.setEnabled(indice > 0);
@@ -120,7 +142,10 @@ public class Controlador {
 		final ImageIcon iconeProximo = new ImageIcon(getClass().getResource("/resources/proximo.png"));
 		btnProx.setIcon(indice < 0 ? iconeIniciar : iconeProximo);
 	}
-        
+    /**
+	* Define todos os atributos do objeto estado passado como parâmetro.
+	* @param e Objeto do tipo Estado que terá seus atributos definidos.
+	*/    
 	private void setEstado(Estado e){
 		mostrador.setEstado(e.est_mostrador);
 		editor.setEstado(e.est_editor);
@@ -129,21 +154,29 @@ public class Controlador {
 		ga.setEstado(e.est_ga);
 		ajustarBotoes();
 	}
-        
+    /**
+	* Define o próximo estado incrementando índice e chama método setEstado
+	* @see setEstado
+	*/
 	public void proxEstado (){
 		if(indice < estados.size()-1){
 			Estado e = (Estado) estados.get(++indice);
 			setEstado(e);
 		}
 	}
-	
+	/**
+	* Define o estado anterior decrementando índice e chama método setEstado
+	* @see setEstado
+	*/
 	public void antEstado (){
 		if((indice > 0)){
 			Estado e = (Estado) estados.get(--indice);
 			setEstado(e);
 		}
 	}
-	
+	/**
+	* Pula para o estado informado correspondente à linha que usuário colocou no campo txtLinha
+	*/
 	public void pularEstado (){
 		try{
 			int linhaUsuario = Integer.valueOf(txtLinha.getText());
@@ -163,7 +196,10 @@ public class Controlador {
 			// Não é número, ignorar
 		}
 	}
-	
+	/**
+	* Utiliza o numero da linha passada para setar o estado correspondente e define seus atributos.
+	* @param linha Linha correspondente ao estado que será carregado.
+	*/
 	public void setEstado (int linha){
 		if((linha >= 0)){
 			Estado e = (Estado) estados.get(linha);

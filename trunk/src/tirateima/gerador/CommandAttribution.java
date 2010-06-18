@@ -3,7 +3,7 @@ package tirateima.gerador;
 import java.util.Stack;
 
 /**
- * Comando de atribuição.
+ * Modela um comando de atribuição.
  * 
  * @author Luciano Santos
  */
@@ -17,6 +17,9 @@ public class CommandAttribution extends Command {
 		this.value = value;
 	}
 	
+	/**
+	 * Executa o comando de atribuição setando o valor da variável (respeitado seu escopo). 
+	 */
 	public void execute(Gerador g)
 			throws TiraTeimaLanguageException {
 		setValue(g.mostrador, var_stack, value);

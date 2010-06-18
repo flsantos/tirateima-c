@@ -19,6 +19,9 @@ public class CommandNewType extends Command {
 		this.fields = fields;
 	}
 	
+	/**
+	 * Executa o comando de novo tipo adicionando os campos e salvando o novo tipo no mapa de registros declarados.
+	 */
 	public void execute(Gerador g)
 			throws TiraTeimaLanguageException {
 		

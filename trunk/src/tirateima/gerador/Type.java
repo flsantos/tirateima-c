@@ -1,6 +1,11 @@
 package tirateima.gerador;
 
+/**
+ * Modela um tipo primitivo da linguagem.
+ * Esse tipo possui um id e um nome (entre uma lista de possíveis tipos).
+ */
 public class Type {
+	
 	private TypeId id;
 	private String name;
 	

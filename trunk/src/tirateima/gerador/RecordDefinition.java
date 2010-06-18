@@ -6,7 +6,7 @@ import java.util.List;
 import tirateima.gui.variaveis.Variavel;
 
 /**
- * Contém uma definição de tipo do Tira-Teima.
+ * Contém uma definição de tipo (registro) do Tira-Teima.
  * 
  * @author Luciano Santos
  */

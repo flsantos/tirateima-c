@@ -10,6 +10,7 @@ import tirateima.parser.TiraTeimaParserConstants;
 
 /**
  * Armazena uma declaração de função a ser executada pelo Tira-Teima.
+ * Extende a classe comando, portanto pode ser executada.
  * 
  * @author Luciano Santos
  */
@@ -17,8 +18,10 @@ public class FunctionDeclaration extends Command
 		implements TiraTeimaParserConstants {
 	
 	private String name;
+	/** Lista de variáveis passadas por parâmetro */
 	private List<VarDefinition> param;
 	private Type type;
+	/** Lista de variáveis locais */
 	private List<VarDefinition> local_vars;
 	
 	public FunctionDeclaration(
@@ -32,12 +35,18 @@ public class FunctionDeclaration extends Command
 		this.local_vars = local_vars;
 	}
 	
+	/**
+	 * Executa declaração de função.
+	 * 
+	 * Recebe o gerador de estados e adiciona a declaração no mapa de funções declaradas.
+	 * @param Gerador g
+	 */
 	public void execute(Gerador g)
 			throws TiraTeimaLanguageException {
-		
+		/** Testa se já não há declaração com o nome dado */
 		if (g.declared_functions.containsKey(name))
 			gerarErro("Função '" + name + "' redeclarada!");
-		
+		/** Declara a função colocando-a na lista de declarações do gerador. */
 		g.declared_functions.put(name, this);
 	}
 	
@@ -51,7 +60,7 @@ public class FunctionDeclaration extends Command
 	 */
 	public Function newFunction(Gerador g, List<Object> args)
 			throws TiraTeimaLanguageException {
-		
+		/** Testa se foram passadas todas as variáveis */
 		if (args.size() != param.size())
 			gerarErro("Número de parâmetros inválido!");
 		
@@ -59,7 +68,9 @@ public class FunctionDeclaration extends Command
 		ListIterator<Object> i = args.listIterator();
 		int cont = 1;
 		Variavel vaux;
+		/** Para cada nova definição de variável passada por parâmetro */
 		for (VarDefinition v : param) {
+			/** Cria uma nova variável */
 			vaux = newVar(g, v);
 			try {
 				vaux.setValor(i.next());
@@ -72,10 +83,13 @@ public class FunctionDeclaration extends Command
 		}
 		
 		List<Variavel> vars = new ArrayList<Variavel>();
+		/** Para cada nova definição de variável local */
 		for (VarDefinition v : local_vars) {
+			/** Cria uma nova variável */
 			vars.add(newVar(g, v));
 		}
 		
+		/** Retona uma nova função */
 		return new Function(name, type, params, vars);
 	}
 }

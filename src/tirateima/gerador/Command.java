@@ -164,7 +164,7 @@ public abstract class Command {
 		parent = child = var_stack.pop();
 		while (!var_stack.empty()) {
 			parent = var_stack.pop();
-				
+			//verifica se o filho eh um vetor ou matriz	
 			if (child instanceof Index) {
 				Index i = (Index) child;
 				if (i.isMatrix) {

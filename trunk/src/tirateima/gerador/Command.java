@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Stack;
-
+/** Imports tipicos do tirateima */
 import tirateima.Par;
 import tirateima.gui.variaveis.Mostrador;
 import tirateima.gui.variaveis.VarArray;
@@ -63,7 +63,7 @@ public abstract class Command {
 			throws TiraTeimaLanguageException {
 		
 		Variavel v = null;
-		Index i  = null;
+		Index i = new Index();
 		
 		/** Cria uma nova variável de acordo com seu tipo */
 		Type t = var_def.getType();

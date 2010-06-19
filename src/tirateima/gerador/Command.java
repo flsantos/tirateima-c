@@ -1,5 +1,7 @@
 package tirateima.gerador;
 
+//Imports para utilização
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -61,7 +63,7 @@ public abstract class Command {
 			throws TiraTeimaLanguageException {
 		
 		Variavel v = null;
-		Index i;
+		Index i  = null;
 		
 		/** Cria uma nova variável de acordo com seu tipo */
 		Type t = var_def.getType();

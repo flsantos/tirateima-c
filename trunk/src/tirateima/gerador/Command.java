@@ -1,13 +1,11 @@
 package tirateima.gerador;
 
-//Imports para utilização
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Stack;
-/** Imports tipicos do tirateima */
+
 import tirateima.Par;
 import tirateima.gui.variaveis.Mostrador;
 import tirateima.gui.variaveis.VarArray;
@@ -63,7 +61,7 @@ public abstract class Command {
 			throws TiraTeimaLanguageException {
 		
 		Variavel v = null;
-		Index i = new Index();
+		Index i;
 		
 		/** Cria uma nova variável de acordo com seu tipo */
 		Type t = var_def.getType();
@@ -166,7 +164,7 @@ public abstract class Command {
 		parent = child = var_stack.pop();
 		while (!var_stack.empty()) {
 			parent = var_stack.pop();
-			//verifica se o filho eh um vetor ou matriz	
+				
 			if (child instanceof Index) {
 				Index i = (Index) child;
 				if (i.isMatrix) {

@@ -48,7 +48,8 @@ public class Programa extends JFrame {
 	private Principal principal;
 	
 	/**
-	 * Método Construtor que inicializa e cria os componentes vazios.
+	 * Método Construtor que inicia o programa sem nenhum argumento.
+	 * Como não foram especificados o arquivo fonte e o roteiro, ele abrirá a tela vazia.
 	 */
 	private Programa() throws Exception {
 		super("Tira-Teima");
@@ -59,7 +60,7 @@ public class Programa extends JFrame {
 	 * Método construtor que recebe 2 strings com os caminhos dos arquivos de parâmetros
 	 * Cria e inicializa os componentes
 	 * @param arq_fonte Arquivo Fonte .PAS
-	 * @param arq_texto Arquivo Texto .TXT
+	 * @param arq_texto Arquivo Texto Roteiro .TXT
 	 */
 	public Programa(String arq_fonte, String arq_texto) throws Exception{
 		this(new FileReader(arq_fonte), new FileReader(arq_texto));
@@ -116,9 +117,6 @@ public class Programa extends JFrame {
 		Programa programa;
 		String msg = null;
 		int msg_type = JOptionPane.ERROR_MESSAGE;
-// 		args = new String[2];
-//		args[0] = "testes/programa6.pas";
-//		args[1] = "testes/roteiro6.txt"; 
 		
 		
 		if (args.length > 0) {

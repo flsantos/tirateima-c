@@ -95,6 +95,12 @@ public class FileBorder extends AbstractBorder{
 		this(null, null, null, null);
 	}
 	
+	/**
+	 * Define o tamanho e a largura da fonte
+	 * 
+	 * @param c: variável da classe Component
+	 * @return Insets object (altura e largura da linha)
+	 */
 	public Insets getBorderInsets(Component c){
 		int altura_fonte = c.getFontMetrics(fonte).getHeight();
 		altura_fonte /= getTitulo().equals("") ? 2 : 1;  

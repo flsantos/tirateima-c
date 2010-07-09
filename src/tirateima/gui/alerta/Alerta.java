@@ -23,6 +23,9 @@ public class Alerta extends JTextPane implements IEstado {
 	private boolean som = false;
 	private boolean somAtivado = true;
 	
+	/**
+	 * Seta valores ao construtor da superclasse 
+	 */
 	public Alerta(){
 		super();
 		setBackground(corFundo);
@@ -32,6 +35,9 @@ public class Alerta extends JTextPane implements IEstado {
 		setText("");
 	}
 	
+	/**
+	 * Faz a renderização da fonte que será mostrada no alerta
+	 */
 	public void setFontStyle(){
 		SimpleAttributeSet bSet = new SimpleAttributeSet();  
         StyleConstants.setAlignment(bSet, StyleConstants.ALIGN_CENTER);  
@@ -47,15 +53,27 @@ public class Alerta extends JTextPane implements IEstado {
 		setText(s);
 	}
 	
+	/**
+	 * @param s: texto que será mostrado no painel de alerta
+	 */
 	public void print(String s){
 		comentario = s;
 	}
-
+	
+	/**
+	 * Faz a limpeza das variáveis para que elas não influenciem no próximo
+	 * estado
+	 */
 	public void limpar(){
 		comentario = null;
 		som = false;
 	}
 	
+	/**
+	 * Implementação do método setEstado da interface IEstado
+	 * Para o estado de alerta são carregados o comentário e o som
+	 * 
+	 */
 	public void setEstado(Object estado){
 		if (estado != null) {
 			EstadoAlerta e = (EstadoAlerta) estado;
@@ -77,6 +95,7 @@ public class Alerta extends JTextPane implements IEstado {
 		}
 	}
 	
+	
 	public void tocaSom(){
 		som = true;
 	}
@@ -85,21 +104,40 @@ public class Alerta extends JTextPane implements IEstado {
 		return som;
 	}
 	
+	/**
+	 * Implementa o metodo da interface
+	 * A funçao retorna um objeto da classe EstadoAlerta
+	 * 
+	 * @return Object
+	 */
 	public Object getEstado(){
 		return new EstadoAlerta(comentario, som);
 	}
 	
+	/**
+	 * Retorna o valor da variável somAtivado que indicará se o som será
+	 * emitido ou não no programa
+	 * 
+	 * @return booleano
+	 */
 	public boolean isSomAtivado() {
 		return somAtivado;
 	}
 
+	
 	public void setSomAtivado(boolean somAtivado) {
 		this.somAtivado = somAtivado;
 	}
 
-	
-	
-	
+	/**
+	 * Recebe o comentario mostrado
+	 * Recebe o som mostrado
+	 * Ao final limpa as variaveis salvas nesse estado para que nao influenciem nos 
+	 * estados futuros
+	 * 
+	 * @author Lucas
+	 *
+	 */
 	private class EstadoAlerta {
 		public String comentario;
 		public boolean som;

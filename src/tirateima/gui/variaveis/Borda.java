@@ -67,6 +67,11 @@ public abstract class Borda extends JComponent implements Scrollable {
 		this.add(c, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Faz a analise da dimensao da janela e retorna o tamanho da mesma
+	 * 
+	 * @return tamPadrao (variavel do tipo Dimension)
+	 */
 	protected Dimension getTamanhoPadrao() {
 		if (tamPadrao == null) {
 			proporcao = 1.0;
@@ -171,8 +176,10 @@ public abstract class Borda extends JComponent implements Scrollable {
 	@Override
 	public Insets getInsets() {
 		if (insets == null) {
-			// Força os cálculos que dependem de um Graphics a
-			// serem feitos.
+			/**
+			 *  Força os cálculos que dependem de um Graphics a
+			 *  serem feitos.
+			 */
 			getTamanhoPadrao();
 			setProporcao(1.0);
 		}

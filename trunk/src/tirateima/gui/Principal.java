@@ -230,6 +230,11 @@ public class Principal extends JPanel {
 		return true;
 	}
 	
+	/**
+	 * Define o layout da janela pricipal e suas dimensões proporcionais a janela
+	 * Define o controle do tira-teima pelas setas direcionais 
+	 * Define as posições de cada módulo do SplitPane
+	 */
 	private void inicializar(){
 		setLayout(new BorderLayout());		
 		spl_principal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
@@ -272,6 +277,12 @@ public class Principal extends JPanel {
 		});
 	}
 	
+	/**
+	 * Cria a barra de navegação do tira-teima
+	 * Define controles de navegação e de zoom (botões de navegação, áudio e ajuda)
+	 * 
+	 * @return JPanel Object: spl_barra_topo (barra de navegação)
+	 */
 	private Component getBarraTopo() {
 		if(spl_barra_topo == null){
 			spl_barra_topo = new JPanel(new BorderLayout());
@@ -368,6 +379,12 @@ public class Principal extends JPanel {
 		return spl_barra_topo;
 	}
 	
+	/**
+	 * Instancia os componentes do lado direito do tira-teima e redimensiona-os
+	 * na janela
+	 * 
+	 * @return JSplitPane Object: spl_painel_direita (console, alerta, mostrador, comentário)
+	 */
 	private JComponent criarPainelDireita(){
 		final JScrollPane consolePanel = new JScrollPane(getConsole(),
     			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -414,6 +431,11 @@ public class Principal extends JPanel {
 		return spl_painel_direita;
 	}
 	
+	/**
+	 * Instancia e dimensiona o editor de texto
+	 * 
+	 * @return JPanel Object: p (painel com editor de texto)
+	 */
 	private JPanel criarPainelDeTexto(){
 		JPanel p = new JPanel(new GridBagLayout());
 		GridBagConstraints gb = new GridBagConstraints();
@@ -433,6 +455,13 @@ public class Principal extends JPanel {
 		return p;
 	}
 	
+	/**
+	 * Instancia o painel mostrador e define a organização do painel dentro do mostrador
+	 * Instancia o painel como um todo. Este engloba todo o conteúdo interno do painel descrito
+	 * acima com toda sua organização
+	 * 
+	 * @return JPanel Object: mostradorCompleto (painel com o mostrador gráfico)
+	 */
 	private JPanel criarPainelMostrador(){
 		JPanel modulo2 = new JPanel();
 		modulo2.setLayout(new GridBagLayout());
@@ -454,6 +483,11 @@ public class Principal extends JPanel {
 		return mostradorCompleto;
 	}
 	
+	/**
+	 * Instancia a área de desenho
+	 * 
+	 * @return JSplitPane Object: spl_desenho (área de desenho)
+	 */
 	private JComponent criarAreaDeDesenho() {
 		spl_desenho = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true,
                 criarPainelMostrador(), getGA());
@@ -461,6 +495,7 @@ public class Principal extends JPanel {
 		spl_desenho.resetToPreferredSizes();
 		return spl_desenho;
 	}
+	
 	
 	private GerenciadorArquivos getGA(){
 		if(ga == null){
@@ -483,6 +518,11 @@ public class Principal extends JPanel {
 		return ga;
 	}
 	
+	/**
+	 * Instancia o console
+	 * 
+	 * @return Console Object: console
+	 */
 	private Console getConsole(){
 		if(console == null){
 			console = new Console();
@@ -491,6 +531,11 @@ public class Principal extends JPanel {
 		return console;
 	}
 	
+	/**
+	 * Instancia o alerta
+	 * 
+	 * @return Alerta Object: alerta
+	 */
 	private Alerta getAlerta(){
 		if(alerta == null){
 			alerta = new Alerta();

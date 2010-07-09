@@ -13,15 +13,16 @@ public class Token {
 	private static Map<String, String> types;
 	
 	private static final String palavras[] = {
-	"auto","break","case","continue",
-	"default","do","else","enum","extern",
-	"for","goto","if","long","register","return",
-	"sizeof","static","struct","switch",
-	"typedef","union","void","volatile","while" };
+	"and", "array", "begin", "case", "const", "div", "do",
+	"downto", "else", "end", "file", "for", "function", "goto",
+	"if", "in", "label", "mod", "nil", "not", "of", "packed",
+	"procedure", "program", "record", "repeat", "set", "then",
+	"to", "type", "until", "var", "while", "with"};
 
 	private static final String tipos[] = {
-	"char", "int", "float", "double", "void",
-	"signed","unsigned", "short", "long", "const"};
+	"integer", "shortint", "longint", "byte", "word",
+	"real", "single", "double", "extended", "comp",
+	"char", "string", "boolean"};
 	
 	static {
 		keywords = new HashMap<String, String>();
@@ -51,39 +52,55 @@ public class Token {
 	public static final int NUM							= 12;
 	public static final int EOB							= 13;
 	
-	public static final int AUTO                        = 14;
-	public static final int BREAK                       = 15;
-	public static final int CASE                        = 16;
-	public static final int CONTINUE                    = 17;
-	public static final int DEFAULT                     = 18;
-	public static final int DO                          = 19;
-	public static final int ELSE                        = 20;
-	public static final int ENUM                        = 21;
-	public static final int EXTERN                      = 22;
-	public static final int FOR                         = 23;
-	public static final int GOTO                        = 24;
-	public static final int IF                          = 25;
-	public static final int REGISTER                    = 26;
-	public static final int RETURN                      = 27;
-	public static final int SIZEOF                      = 28;
-	public static final int STATIC                      = 29;
-	public static final int STRUCT                      = 30;
-	public static final int SWITCH                      = 31;
-	public static final int TYPEDEF                     = 32;
-	public static final int UNION                       = 33;
-	public static final int VOLATILE                    = 34;
-	public static final int WHILE                       = 35;	
+	public static final int AND 						= 14;
+	public static final int ARRAY 						= 15;
+	public static final int BEGIN 						= 16;
+	public static final int CASE 						= 17;
+	public static final int CONST 						= 18;
+	public static final int DIV 						= 19;
+	public static final int DO							= 20;
+	public static final int DOWNTO 						= 21;
+	public static final int ELSE 						= 22;
+	public static final int END 						= 23;
+	public static final int FILE 						= 24;
+	public static final int FOR 						= 25;
+	public static final int FUNCTION					= 26;
+	public static final int GOTO						= 27;
+	public static final int IF							= 28;
+	public static final int IN							= 29;
+	public static final int LABEL						= 30;
+	public static final int MOD							= 31;
+	public static final int NIL							= 32;
+	public static final int NOT							= 33;
+	public static final int OF							= 34;
+	public static final int PACKED						= 35;
+	public static final int PROCEDURE					= 36;
+	public static final int PROGRAM						= 37;
+	public static final int RECORD						= 38;
+	public static final int REPEAT						= 39;
+	public static final int SET							= 40;
+	public static final int THEN						= 41;
+	public static final int TO							= 42;
+	public static final int TYPE						= 43;
+	public static final int UNTIL						= 44;
+	public static final int VAR							= 45;
+	public static final int WHILE						= 46;
+	public static final int WITH						= 47;
 	
-	public static final int CHAR                        = 36;
-	public static final int INT                         = 37;
-	public static final int FLOAT                       = 38;
-	public static final int DOUBLE                      = 39;
-	public static final int VOID                        = 40;
-	public static final int SIGNED                      = 41;
-	public static final int UNSIGNED                    = 42;
-	public static final int SHORT                       = 43;
-	public static final int LONG                        = 44;
-	public static final int CONST                       = 45;
+	
+	public static final int INTEGER						= 48;
+	public static final int SHORTINT					= 49;
+	public static final int LONGINT						= 50;
+	public static final int BYTE						= 51;
+	public static final int WORD						= 52;
+	public static final int REAL						= 53;
+	public static final int SINGLE						= 54;
+	public static final int DOUBLE						= 55;
+	public static final int EXTENDED					= 56;
+	public static final int COMP						= 57;
+	public static final int CHAR						= 58;
+	public static final int STRING_TP					= 59;
+	public static final int BOOLEAN						= 60;
 	
 	private int id_token;
 	private String valor_token;
@@ -123,11 +140,11 @@ public class Token {
 	}
 	
 	public boolean ehPalavraChave() {
-		return ((id_token >= AUTO) && (id_token <= WHILE));
+		return ((id_token >= AND) && (id_token <= WITH));
 	}
 	
 	public boolean ehTipo(){
-		return ((id_token >= CHAR) && (id_token <= CONST));
+		return ((id_token >= INTEGER) && (id_token <= BOOLEAN));
 	}
 	
 	public static boolean ehPalavraChave(String id) {

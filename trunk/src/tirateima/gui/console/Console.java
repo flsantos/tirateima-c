@@ -20,6 +20,9 @@ public class Console extends JTextArea implements IEstado{
 	/*Linhas de texto.*/
 	private ArrayList<String> linhas;
 	
+	/**
+	 * Seta valores ao construtor da superclasse
+	 */
 	public Console(){
 		super();
 		linhas = new ArrayList<String>();
@@ -28,6 +31,11 @@ public class Console extends JTextArea implements IEstado{
 		setEditable(false);
 	}
 	
+	/**
+	 * Recebe a string a ser mostrada no console e seta ela
+	 * 
+	 * @param s
+	 */
 	public Console(String s){
 		this();
 		setText(s);
@@ -37,6 +45,11 @@ public class Console extends JTextArea implements IEstado{
 		return linhas_max;
 	}
 	
+	/**
+	 * Restringe o intervalo no qual irá variar a quantidade de linhas
+	 * 
+	 * @param linhas: quantidade de linhas do console
+	 */
 	public void setLinhasMax(int linhas){
 		if((linhas < 10) || (linhas > 500)){
 			throw new IllegalArgumentException(
@@ -49,6 +62,11 @@ public class Console extends JTextArea implements IEstado{
 		return larg_max;
 	}
 	
+	/**
+	 * Restringe o intervalo no qual irá variar a largura do console
+	 * 
+	 * @param caracteres: quantidade de caracteres mostrados em uma linha
+	 */
 	public void setLargMax(int caracteres){
 		if((caracteres < 10) || (caracteres > 200)){
 			throw new IllegalArgumentException(
@@ -57,21 +75,34 @@ public class Console extends JTextArea implements IEstado{
 		larg_max = caracteres;
 	}
 	
+	/**
+	 * Garante o funcionamento correto das linhas do console
+	 * 
+	 * @param s
+	 */
 	public void print(String s){
-		//pega a última linha e adiciona o texto
+		/**
+		 * pega a última linha e adiciona o texto
+		 */
 		String temp = linhas.size() > 0 ?
 				linhas.get(linhas.size() - 1) + s:
 				s;
 		
-		//garante não repetir a última linha
+		/**
+		 * garante não repetir a última linha
+		 */
 		if(linhas.size() > 0){
 			linhas.remove(linhas.size() - 1);
 		}
 		
-		//gera e adiciona as linhas, se necessário
+		/**
+		 * gera e adiciona as linhas, se necessário
+		 */
 		linhas.addAll(encontrarLinhas(temp));
 		
-		//garante que o total de linhas não ultrapasse o máximo definido
+		/**
+		 * garante que o total de linhas não ultrapasse o máximo definido
+		 */
 		if(linhas.size() > linhas_max){
 			ArrayList<String> temp_list = new ArrayList<String>();
 			temp_list.addAll(linhas.subList(
@@ -79,10 +110,13 @@ public class Console extends JTextArea implements IEstado{
 					linhas.size() - 1));
 		}
 		
-		//mostra o novo texto
+		/**
+		 * mostra o novo texto
+		 */
 		organizarTexto();
 	}
-
+	
+	
 	public void print(char[] ca){
 		print(new String(ca));
 	}
@@ -151,11 +185,18 @@ public class Console extends JTextArea implements IEstado{
 		setText("");
 	}
 	
+	
 	public void setText(String s){
 		linhas = encontrarLinhas(s);
 		organizarTexto();
 	}
 	
+	/**
+	 * Recebe um objeto e tenta transforma-lo em string, caso ele seja diferente de NULL
+	 * Se o parametro for NULL ele atribui uma string vazia ao setText utilizando o Clear()
+	 * 
+	 * @param Objetc o
+	 */
 	public void setEstado(Object o){
 		if(o != null){
 			try{
@@ -174,6 +215,15 @@ public class Console extends JTextArea implements IEstado{
 		return getText();
 	}
 	
+	/**
+	 * Esse metodo recebe uma string, separa ela em um array de char e concatena esses chars
+	 * utilizando a classe StringBuffer e transformando-a em string novamente
+	 * 
+	 * Feito isso, o metodo grava essa string em uma lista de strings, retornando-as
+	 * 
+	 * @param s
+	 * @return ArrayList<String> lista
+	 */
 	private ArrayList<String> encontrarLinhas(String s){
 		ArrayList<String> lista = new ArrayList<String>();
 		char array[] = s.toCharArray();

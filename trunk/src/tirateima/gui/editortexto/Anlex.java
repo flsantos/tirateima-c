@@ -10,8 +10,10 @@ public class Anlex {
 	private Buffer buffer;
 	
 	/**Contantes dos estados do analisador.*/
+	private static final int EST_COMENT_CHAVE_01 	= 1;
 	private static final int EST_COMENT_PAR_01 		= 2;
 	private static final int EST_COMENT_PAR_02		= 3;
+	private static final int EST_COMENT_FIM_CH_01	= 4;
 	private static final int EST_COMENT_FIM_PAR_01	= 5;
 	private static final int EST_COMENT_FIM_PAR_02 	= 6;
 	private static final int EST_IDENT_01 			= 7;
@@ -47,7 +49,11 @@ public class Anlex {
 	 */
 	private int falhar(int estado){
 		switch(estado){
+			case EST_COMENT_CHAVE_01:
+				return EST_COMENT_PAR_01;
 			case EST_COMENT_PAR_01:
+				return EST_COMENT_FIM_CH_01;
+			case EST_COMENT_FIM_CH_01:
 				return EST_COMENT_FIM_PAR_01;
 			case EST_COMENT_FIM_PAR_01:
 				return EST_IDENT_01;
@@ -70,12 +76,22 @@ public class Anlex {
 	
 	public Token getToken(){
 		Token temp = new Token();
-		int estado = EST_COMENT_PAR_01;
+		int estado = EST_COMENT_CHAVE_01;
 		while(true){
 			int a = getchar();
-			switch(estado){				
+			switch(estado){
+				case EST_COMENT_CHAVE_01:
+					if(a == '{'){
+						temp.setId(Token.BEGINCOMMENT_CH);
+						temp.setValor("{");
+						return temp;
+					}
+					ungetchar(a);
+					estado = falhar(estado);
+					break;
+				
 				case EST_COMENT_PAR_01:
-					if(a == '/'){
+					if(a == '('){
 						temp.appendToValor((char) a);
 						estado = EST_COMENT_PAR_02;
 					}else{
@@ -87,13 +103,22 @@ public class Anlex {
 				case EST_COMENT_PAR_02:
 					if(a == '*'){
 						temp.setId(Token.BEGINCOMMENT_PAR);
-						temp.setValor("/*");
+						temp.setValor("(*");
 					}else{
 						ungetchar(a);
 						temp.setId(Token.OTHER);
 					}
 					return temp;
 				
+				case EST_COMENT_FIM_CH_01:
+					if(a == '}'){
+						temp.setId(Token.ENDCOMMENT_CH);
+						temp.setValor("}");
+						return temp;
+					}
+					ungetchar(a);
+					estado = falhar(estado);
+					break;
 				case EST_COMENT_FIM_PAR_01:
 					if(a == '*'){
 						temp.appendToValor((char) a);
@@ -105,9 +130,9 @@ public class Anlex {
 					break;
 				
 				case EST_COMENT_FIM_PAR_02:
-					if(a == '/'){
+					if(a == ')'){
 						temp.setId(Token.ENDCOMMENT_PAR);
-						temp.setValor("*/");
+						temp.setValor("*)");
 					}else{
 						ungetchar(a);
 						temp.setId(Token.OTHER);

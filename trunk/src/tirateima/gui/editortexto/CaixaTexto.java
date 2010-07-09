@@ -70,7 +70,6 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 	List<Integer> linhas;
 	
 	/*Define se o texto conterá higlighting ou não...*/
-	//TODO implementar o highlight para C para poder voltar para true
 	private boolean highlighted = true;
 	
 	/*Define qual linha deve ser destacada. Se for menor que zero, nenhuma.*/

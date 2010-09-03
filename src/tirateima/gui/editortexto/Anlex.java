@@ -74,15 +74,15 @@ public class Anlex {
 		return 0;
 	}
 	
-	public Token getToken(){
-		Token temp = new Token();
+	public Token2 getToken(){
+		Token2 temp = new Token2();
 		int estado = EST_COMENT_CHAVE_01;
 		while(true){
 			int a = getchar();
 			switch(estado){
 				case EST_COMENT_CHAVE_01:
 					if(a == '{'){
-						temp.setId(Token.BEGINCOMMENT_CH);
+						temp.setId(Token2.BEGINCOMMENT_CH);
 						temp.setValor("{");
 						return temp;
 					}
@@ -102,17 +102,17 @@ public class Anlex {
 
 				case EST_COMENT_PAR_02:
 					if(a == '*'){
-						temp.setId(Token.BEGINCOMMENT_PAR);
+						temp.setId(Token2.BEGINCOMMENT_PAR);
 						temp.setValor("(*");
 					}else{
 						ungetchar(a);
-						temp.setId(Token.OTHER);
+						temp.setId(Token2.OTHER);
 					}
 					return temp;
 				
 				case EST_COMENT_FIM_CH_01:
 					if(a == '}'){
-						temp.setId(Token.ENDCOMMENT_CH);
+						temp.setId(Token2.ENDCOMMENT_CH);
 						temp.setValor("}");
 						return temp;
 					}
@@ -131,11 +131,11 @@ public class Anlex {
 				
 				case EST_COMENT_FIM_PAR_02:
 					if(a == ')'){
-						temp.setId(Token.ENDCOMMENT_PAR);
+						temp.setId(Token2.ENDCOMMENT_PAR);
 						temp.setValor("*)");
 					}else{
 						ungetchar(a);
-						temp.setId(Token.OTHER);
+						temp.setId(Token2.OTHER);
 					}
 					return temp;
 					
@@ -154,7 +154,7 @@ public class Anlex {
 						temp.appendToValor((char) a);
 					}else{
 						ungetchar(a);
-						temp.setId(Token.IDENTIFIER);
+						temp.setId(Token2.IDENTIFIER);
 						return temp;
 					}
 					break;
@@ -172,7 +172,7 @@ public class Anlex {
 							estado = EST_NUM_03;
 						}else{
 							ungetchar(a);
-							temp.setId(Token.NUM);
+							temp.setId(Token2.NUM);
 							return temp;
 						}
 					}else if(a == '.'){
@@ -195,7 +195,7 @@ public class Anlex {
 							estado = EST_NUM_03;
 						}else{
 							ungetchar(a);
-							temp.setId(Token.NUM);
+							temp.setId(Token2.NUM);
 							return temp;
 						}
 					} else {
@@ -203,7 +203,7 @@ public class Anlex {
 						ungetchar('.');
 						
 						if(temp.getValor().length() > 0){
-							temp.setId(Token.NUM);
+							temp.setId(Token2.NUM);
 							return temp;
 						}else{
 							estado = falhar(estado);
@@ -219,7 +219,7 @@ public class Anlex {
 						}while(Character.isDigit(a));
 						
 						ungetchar(a);
-						temp.setId(Token.NUM);
+						temp.setId(Token2.NUM);
 						return temp;
 					}else if((a == '-')||(a == '+')){
 						a = getchar();
@@ -231,20 +231,20 @@ public class Anlex {
 							}while(Character.isDigit(a));
 							
 							ungetchar(a);
-							temp.setId(Token.NUM);
+							temp.setId(Token2.NUM);
 							return temp;
 						}else{
 							ungetchar(a);
 							ungetchar('+');
 							ungetchar('e');
 							
-							temp.setId(Token.NUM);
+							temp.setId(Token2.NUM);
 							return temp;
 						}
 					}else{
 						ungetchar(a);
 						ungetchar('e');
-						temp.setId(Token.NUM);
+						temp.setId(Token2.NUM);
 						return temp;
 					}
 				
@@ -259,7 +259,7 @@ public class Anlex {
 								temp.appendToValor('.');
 							}
 							
-							temp.setId(Token.PONT);
+							temp.setId(Token2.PONT);
 							return temp;
 						case ':':
 						case ';':
@@ -267,7 +267,7 @@ public class Anlex {
 						case '[':
 						case ']':
 							temp.appendToValor((char) a);
-							temp.setId(Token.PONT);
+							temp.setId(Token2.PONT);
 							return temp;
 						default:
 							ungetchar(a);
@@ -276,7 +276,7 @@ public class Anlex {
 					break;
 				case EST_EOLINE_01:
 					if(a == '\n'){
-						temp.setId(Token.EOLINE);
+						temp.setId(Token2.EOLINE);
 						temp.setValor("\n");
 						return temp;
 					}
@@ -296,11 +296,11 @@ public class Anlex {
 				case EST_LITERAL_02:
 					if(a == '\''){
 						temp.appendToValor((char) a);
-						temp.setId(Token.STRING);
+						temp.setId(Token2.STRING);
 						return temp;
 					}else if(a == '\n'){
 						ungetchar(a);
-						temp.setId(Token.STRING);
+						temp.setId(Token2.STRING);
 						return temp;
 					}else{
 						temp.appendToValor((char) a);
@@ -308,7 +308,7 @@ public class Anlex {
 					break;
 				case EST_EOB_01:
 					if(a == -1){
-						return new Token(Token.EOB, new String(""));
+						return new Token2(Token2.EOB, new String(""));
 					}else{
 						ungetchar(a);
 						estado = falhar(estado);
@@ -316,7 +316,7 @@ public class Anlex {
 					break;
 				default:
 					temp.appendToValor((char) a); 
-					temp.setId(Token.OTHER);
+					temp.setId(Token2.OTHER);
 					return temp;
 			}
 		}

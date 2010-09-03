@@ -341,8 +341,8 @@ public class PascalLexer {
   /* user code: */
   StringBuffer string = new StringBuffer();
   
-  private Token token(int type) {
-    return new Token(type, yytext());
+  private Token2 token(int type) {
+    return new Token2(type, yytext());
   }
 
 
@@ -563,7 +563,7 @@ public class PascalLexer {
    * @return      the next token
    * @exception   java.io.IOException  if any I/O-Error occurs
    */
-  public Token yylex() throws java.io.IOException {
+  public Token2 yylex() throws java.io.IOException {
     int zzInput;
     int zzAction;
 
@@ -634,151 +634,151 @@ public class PascalLexer {
 
       switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
         case 29: 
-          { return token(Token.BYTE);
+          { return token(Token2.BYTE);
           }
         case 61: break;
         case 47: 
-          { return token(Token.DOUBLE);
+          { return token(Token2.DOUBLE);
           }
         case 62: break;
         case 42: 
-          { return token(Token.CONST);
+          { return token(Token2.CONST);
           }
         case 63: break;
         case 58: 
-          { return token(Token.SHORTINT);
+          { return token(Token2.SHORTINT);
           }
         case 64: break;
         case 33: 
-          { return token(Token.COMP);
+          { return token(Token2.COMP);
           }
         case 65: break;
         case 28: 
-          { return token(Token.REAL);
+          { return token(Token2.REAL);
           }
         case 66: break;
         case 3: 
-          { return token(Token.IDENTIFIER);
+          { return token(Token2.IDENTIFIER);
           }
         case 67: break;
         case 39: 
-          { return token(Token.FILE);
+          { return token(Token2.FILE);
           }
         case 68: break;
         case 31: 
-          { return token(Token.GOTO);
+          { return token(Token2.GOTO);
           }
         case 69: break;
         case 18: 
-          { return token(Token.ENDCOMMENT_PAR);
+          { return token(Token2.ENDCOMMENT_PAR);
           }
         case 70: break;
         case 10: 
-          { yybegin(YYINITIAL); string.append(yytext()); return new Token(Token.BAD_STRING, string.toString());
+          { yybegin(YYINITIAL); string.append(yytext()); return new Token2(Token2.BAD_STRING, string.toString());
           }
         case 71: break;
         case 50: 
-          { return token(Token.SINGLE);
+          { return token(Token2.SINGLE);
           }
         case 72: break;
         case 51: 
-          { return token(Token.STRING_TP);
+          { return token(Token2.STRING_TP);
           }
         case 73: break;
         case 15: 
-          { return token(Token.OF);
+          { return token(Token2.OF);
           }
         case 74: break;
         case 16: 
-          { return token(Token.TO);
+          { return token(Token2.TO);
           }
         case 75: break;
         case 44: 
-          { return token(Token.LABEL);
+          { return token(Token2.LABEL);
           }
         case 76: break;
         case 23: 
-          { return token(Token.END);
+          { return token(Token2.END);
           }
         case 77: break;
         case 60: 
-          { return token(Token.PROCEDURE);
+          { return token(Token2.PROCEDURE);
           }
         case 78: break;
         case 2: 
-          { return token(Token.EOLINE);
+          { return token(Token2.EOLINE);
           }
         case 79: break;
         case 41: 
-          { return token(Token.BEGIN);
+          { return token(Token2.BEGIN);
           }
         case 80: break;
         case 17: 
-          { return token(Token.BEGINCOMMENT_PAR);
+          { return token(Token2.BEGINCOMMENT_PAR);
           }
         case 81: break;
         case 52: 
-          { return token(Token.PACKED);
+          { return token(Token2.PACKED);
           }
         case 82: break;
         case 7: 
-          { return token(Token.ENDCOMMENT_CH);
+          { return token(Token2.ENDCOMMENT_CH);
           }
         case 83: break;
         case 21: 
-          { return token(Token.NOT);
+          { return token(Token2.NOT);
           }
         case 84: break;
         case 19: 
-          { return token(Token.AND);
+          { return token(Token2.AND);
           }
         case 85: break;
         case 49: 
-          { return token(Token.REPEAT);
+          { return token(Token2.REPEAT);
           }
         case 86: break;
         case 22: 
-          { return token(Token.DIV);
+          { return token(Token2.DIV);
           }
         case 87: break;
         case 40: 
-          { return token(Token.ARRAY);
+          { return token(Token2.ARRAY);
           }
         case 88: break;
         case 54: 
-          { return token(Token.INTEGER);
+          { return token(Token2.INTEGER);
           }
         case 89: break;
         case 27: 
-          { return token(Token.MOD);
+          { return token(Token2.MOD);
           }
         case 90: break;
         case 53: 
-          { return token(Token.BOOLEAN);
+          { return token(Token2.BOOLEAN);
           }
         case 91: break;
         case 35: 
-          { return token(Token.TYPE);
+          { return token(Token2.TYPE);
           }
         case 92: break;
         case 32: 
-          { return token(Token.CASE);
+          { return token(Token2.CASE);
           }
         case 93: break;
         case 43: 
-          { return token(Token.WHILE);
+          { return token(Token2.WHILE);
           }
         case 94: break;
         case 12: 
-          { return token(Token.DO);
+          { return token(Token2.DO);
           }
         case 95: break;
         case 30: 
-          { return token(Token.ELSE);
+          { return token(Token2.ELSE);
           }
         case 96: break;
         case 11: 
-          { yybegin(YYINITIAL); string.append("'"); return new Token(Token.STRING, string.toString());
+          { yybegin(YYINITIAL); string.append("'"); return new Token2(Token2.STRING, string.toString());
           }
         case 97: break;
         case 9: 
@@ -786,35 +786,35 @@ public class PascalLexer {
           }
         case 98: break;
         case 4: 
-          { return token(Token.NUM);
+          { return token(Token2.NUM);
           }
         case 99: break;
         case 57: 
-          { return token(Token.EXTENDED);
+          { return token(Token2.EXTENDED);
           }
         case 100: break;
         case 36: 
-          { return token(Token.THEN);
+          { return token(Token2.THEN);
           }
         case 101: break;
         case 6: 
-          { return token(Token.BEGINCOMMENT_CH);
+          { return token(Token2.BEGINCOMMENT_CH);
           }
         case 102: break;
         case 25: 
-          { return token(Token.VAR);
+          { return token(Token2.VAR);
           }
         case 103: break;
         case 45: 
-          { return token(Token.UNTIL);
+          { return token(Token2.UNTIL);
           }
         case 104: break;
         case 8: 
-          { return token(Token.PONT);
+          { return token(Token2.PONT);
           }
         case 105: break;
         case 1: 
-          { return token(Token.OTHER);
+          { return token(Token2.OTHER);
           }
         case 106: break;
         case 5: 
@@ -822,61 +822,61 @@ public class PascalLexer {
           }
         case 107: break;
         case 14: 
-          { return token(Token.IF);
+          { return token(Token2.IF);
           }
         case 108: break;
         case 56: 
-          { return token(Token.PROGRAM);
+          { return token(Token2.PROGRAM);
           }
         case 109: break;
         case 48: 
-          { return token(Token.RECORD);
+          { return token(Token2.RECORD);
           }
         case 110: break;
         case 55: 
-          { return token(Token.LONGINT);
+          { return token(Token2.LONGINT);
           }
         case 111: break;
         case 38: 
-          { return token(Token.WORD);
+          { return token(Token2.WORD);
           }
         case 112: break;
         case 37: 
-          { return token(Token.WITH);
+          { return token(Token2.WITH);
           }
         case 113: break;
         case 34: 
-          { return token(Token.CHAR);
+          { return token(Token2.CHAR);
           }
         case 114: break;
         case 13: 
-          { return token(Token.IN);
+          { return token(Token2.IN);
           }
         case 115: break;
         case 59: 
-          { return token(Token.FUNCTION);
+          { return token(Token2.FUNCTION);
           }
         case 116: break;
         case 26: 
-          { return token(Token.FOR);
+          { return token(Token2.FOR);
           }
         case 117: break;
         case 46: 
-          { return token(Token.DOWNTO);
+          { return token(Token2.DOWNTO);
           }
         case 118: break;
         case 20: 
-          { return token(Token.NIL);
+          { return token(Token2.NIL);
           }
         case 119: break;
         case 24: 
-          { return token(Token.SET);
+          { return token(Token2.SET);
           }
         case 120: break;
         default: 
           if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
             zzAtEOF = true;
-              { 	return token(Token.EOB);
+              { 	return token(Token2.EOB);
  }
           } 
           else {

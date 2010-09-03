@@ -8,7 +8,7 @@ import java.util.Map;
  * 
  * @author Luciano Santos
  */
-public class Token {
+public class Token2 {
 	private static Map<String, String> keywords;
 	private static Map<String, String> types;
 	
@@ -105,12 +105,12 @@ public class Token {
 	private int id_token;
 	private String valor_token;
 	
-	public Token(){
+	public Token2(){
 		this.id_token = 0;
 		this.valor_token = "";
 	}
 	
-	public Token(int id_token, String valor_token){
+	public Token2(int id_token, String valor_token){
 		this.id_token = id_token;
 		this.valor_token = valor_token;
 	}

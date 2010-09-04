@@ -91,12 +91,12 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 
 	/*Índices de acesso aos nomes dos estilos...*/
 	public static final String[] estilos = {"regular", "palavra_chave",
-		"literal", "comentario", "pontuacao", "num", "tipo"};
+		"literal", "comentario", "pontuacao", "num", "tipo", "diretivas"};
 
 	/*Cores do highlighting e do destaque.*/
-	private Color cores[] = {Color.BLACK, Color.BLUE, Color.RED,
-			new Color(180,180,180),Color.BLACK, new Color(180, 50, 180),
-			new Color(0, 100, 50), new Color(255, 255, 0)};
+	private Color cores[] = {Color.BLACK, new Color(0, 0, 177)/*Dark Blue*/, new Color(64, 64, 255)/*Light Blue*/,
+			new Color(180,180,180),Color.RED, /*new Color(180, 50, 180)*/Color.MAGENTA,
+			new Color(0, 0, 177),  new Color(0, 135, 0)/*Verde Escuro*/, new Color(255, 255, 0)};
 
 	/*Fonte básica...*/
 	Font fonte_basica = new Font("Courier New", Font.PLAIN, 14);
@@ -110,7 +110,8 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 	public static final int PONTUACAO 		= 4;
 	public static final int NUMEROS 		= 5;
 	public static final int TIPO 			= 6;
-	public static final int DESTAQUE 		= 7;
+	public static final int DIRETIVAS		= 7;
+	public static final int DESTAQUE 		= 8;
 
 
 	/**
@@ -290,17 +291,17 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 				int line = 1;
 				boolean insert_line = true;
 				while(t.kind != CParserConstants.EOF){
+					if (t.kind == CParserConstants.LETTER)
+						System.out.println(t.kind + "   "+ t.image);
 					estilo = estilos[REGULAR];
 					switch(t.kind){
 
 					case CParserConstants.IDENTIFIER: 
-							//if (isNome(t.kind))
-							
-						estilo = estilos[PALAVRA_CHAVE];
+						estilo = estilos[REGULAR];
 						break;	
 						
 					case CParserConstants.DIRETIVAS:
-						estilo = estilos[COMENTARIO];
+						estilo = estilos[DIRETIVAS];
 						break;
 						
 					case CParserConstants.COMENTARIO_BLOCO:
@@ -310,51 +311,166 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 					case CParserConstants.COMENTARIO_LINHA:
 						estilo = estilos[COMENTARIO];
 						break;
-					
-						/*case Token2.IDENTIFIER:
-						if(Token2.ehPalavraChave(t.getValor())){
-							estilo = estilos[PALAVRA_CHAVE];
-						}else if(Token2.ehTipo(t.getValor())){
-							estilo = estilos[TIPO];
-						}
+						
+					case CParserConstants.INTEGER_LITERAL:
+						estilo = estilos[NUMEROS];
 						break;
-					case Token2.STRING:
+
+					case CParserConstants.DECIMAL_LITERAL:
+						estilo = estilos[NUMEROS];
+						break;
+
+					case CParserConstants.HEX_LITERAL:
+						estilo = estilos[NUMEROS];
+						break;
+
+					case CParserConstants.OCTAL_LITERAL:
+						estilo = estilos[NUMEROS];
+						break;
+
+					case CParserConstants.FLOATING_POINT_LITERAL:
+						estilo = estilos[NUMEROS];
+						break;
+
+					case CParserConstants.EXPONENT:
+						estilo = estilos[NUMEROS];
+						break;
+
+					case CParserConstants.CHARACTER_LITERAL:
 						estilo = estilos[LITERAL];
 						break;
-					case Token2.BEGINCOMMENT_CH:
-						if(!coment_par){
-							estilo = estilos[COMENTARIO];
-							coment_chave = true;
-						}
+
+					case CParserConstants.STRING_LITERAL:
+						estilo = estilos[LITERAL];
 						break;
-					case Token2.ENDCOMMENT_CH:
-						if(coment_chave){
-							estilo = estilos[COMENTARIO];
-							coment_chave = false;
-						}
+
+					case CParserConstants.CONTINUE:
+						estilo = estilos[PALAVRA_CHAVE];
 						break;
-					case Token2.BEGINCOMMENT_PAR:
-						if(!coment_chave){
-							estilo = estilos[COMENTARIO];
-							coment_par = true;
-						}
+
+					case CParserConstants.VOLATILE:
+						estilo = estilos[PALAVRA_CHAVE];
 						break;
-					case Token2.ENDCOMMENT_PAR:
-						if(coment_par){
-							estilo = estilos[COMENTARIO];
-							coment_par = false;
-						}
+
+					case CParserConstants.REGISTER:
+						estilo = estilos[PALAVRA_CHAVE];
 						break;
-					case Token2.PONT:
-						estilo = estilos[PONTUACAO];
+
+					case CParserConstants.UNSIGNED:
+						estilo = estilos[PALAVRA_CHAVE];
 						break;
-					case Token2.NUM:
+
+					case CParserConstants.TYPEDEF:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.DFLT:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.DOUBLE:
+						estilo = estilos[TIPO];
+						break;
+
+					case CParserConstants.SIZEOF:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.SWITCH:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.RETURN:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.EXTERN:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.STRUCT:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.STATIC:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.SIGNED:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.WHILE:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.BREAK:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.UNION:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+
+					case CParserConstants.CONST:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+					case CParserConstants.FLOAT:
+						estilo = estilos[TIPO];
+						break;
+					case CParserConstants.SHORT:
+						estilo = estilos[TIPO];
+						break;
+					case CParserConstants.ELSE:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+					case CParserConstants.CASE:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+					case CParserConstants.LONG:
+						estilo = estilos[TIPO];
+						break;
+					case CParserConstants.ENUM:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+					case CParserConstants.AUTO:
+						estilo = estilos[LITERAL];
+						break;
+					case CParserConstants.VOID:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+					case CParserConstants.CHAR:
+						estilo = estilos[TIPO];
+						break;
+					case CParserConstants.GOTO:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+					case CParserConstants.FOR:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+					case CParserConstants.INT:
+						estilo = estilos[TIPO];
+						break;
+					case CParserConstants.IF:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+					case CParserConstants.DO:
+						estilo = estilos[PALAVRA_CHAVE];
+						break;
+					case CParserConstants.LETTER:
+						estilo = estilos[LITERAL];
+						break;
+					case CParserConstants.DIGIT:
 						estilo = estilos[NUMEROS];
-						break;*/
+						break;
+						
+					
+					default:
+						if ((t.kind >= 53) && (t.kind <= 98)) {
+							estilo = estilos[PONTUACAO];
+						}
 					}
 
-					/*if(coment_par || coment_chave)
-	    			estilo = estilos[COMENTARIO];*/
 
 	    		try{
 	    			if(insert_line){
@@ -363,7 +479,6 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 	    			}
 	    			if("\n".equals(t.image)){
 	    				insert_line = true;
-	    				System.out.println("AAAA");
 	    			}
 
 	    			doc.insertString(doc.getLength(), t.image, doc.getStyle(estilo));
@@ -373,9 +488,6 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 	    			
 					t = CParser.getNextToken();
 
-
-					
-					//saltaLinhasEEspaços(doc);
 
 				}
 			}
@@ -412,32 +524,6 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 		int length = textPane.getDocument().getLength();
 		textPane.getStyledDocument().setParagraphAttributes(0, length, attributes, false);
 	}
-	private void saltaLinhasEEspaços(StyledDocument doc) {
-		
-		if ((iniColuna - fimColuna - 1) > 0) {
-			StringBuffer a = new StringBuffer();
-			for (int i=0; i<(iniColuna-fimColuna); i++) {
-				a.append(" ");
-			}
-			try {
-				doc.insertString(doc.getLength(), a.toString(), doc.getStyle("REGULAR"));
-			} catch (BadLocationException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if ((iniLinha - fimLinha) > 0) {
-			StringBuffer a = new StringBuffer();
-			for (int i=0; i<(iniLinha-fimLinha); i++) {
-				a.append("\n\r");
-			}
-			try {
-				doc.insertString(doc.getLength(), a.toString(), doc.getStyle("REGULAR"));
-			} catch (BadLocationException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 
 	/**
 	 * Divide o texto em linhas e retorna a posição de cada uma.
@@ -467,7 +553,7 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 		getStyle(StyleContext.DEFAULT_STYLE);
 
 		/*Remove estilos antes de adicionar...*/
-		for(int i = 0; i <= TIPO; i++){
+		for(int i = 0; i <= DIRETIVAS; i++){
 			doc.removeStyle(estilos[i]);
 			doc.addStyle(estilos[i], def);
 		}
@@ -510,6 +596,12 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 		StyleConstants.setBold(s, true);
 		StyleConstants.setItalic(s, false);
 		StyleConstants.setForeground(s, cores[TIPO]);
+		
+		/*Estilo para diretivas...*/
+		s = doc.getStyle("diretivas");
+		StyleConstants.setBold(s, true);
+		StyleConstants.setItalic(s, false);
+		StyleConstants.setForeground(s, cores[DIRETIVAS]);
 	}
 
 	public void insertUpdate(DocumentEvent e){
@@ -528,3 +620,5 @@ public class CaixaTexto extends JTextPane implements DocumentListener{
 		}
 	}
 }
+
+

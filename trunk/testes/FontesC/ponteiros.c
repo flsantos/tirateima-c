@@ -2,10 +2,10 @@
 
 int main(int argc, char *argv[]){
     int numero;
-    int *ponteiro;
-    ponteiro = NULL;
-    ponteiro = &numero;
+    int *p;
+    p = NULL;
+    p = &numero;
     numero = 10;
-    printf("%d",*ponteiro);
+    printf("%d",*p);
     return 0;
 }

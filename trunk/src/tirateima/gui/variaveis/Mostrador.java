@@ -182,6 +182,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 
 	public void setEstado(Object estado) {
 		//esconde durante o desenho: evita flicker na tela
+		//TODO voltar valor abaixo para false, só testando  desenho.
 		painelPrincipal.setVisible(false);
 		
 		painelPrincipal.removeAll();

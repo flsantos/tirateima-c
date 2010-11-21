@@ -401,6 +401,9 @@ Object constant() : {
 	} |
 	t = <KW_FALSE> {
 		return new Boolean(false);
+	} |
+	t = <KW_NULL> {
+		return null;
 	}
 }
 
@@ -651,6 +654,7 @@ TOKEN [IGNORE_CASE] : {
 	<KW_END : "end"> |
 	<KW_TRUE : "true"> |
 	<KW_FALSE : "false"> |
+	<KW_NULL : "null"> | 
 	<KW_COLOR : "cor"> |
 	<KW_COLOR_INSIDE : "corexterna"> |
 	<KW_DIMENSION : "tamanho"> |

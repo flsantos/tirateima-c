@@ -102,12 +102,12 @@ public abstract class VarLinha extends Variavel {
 
 	@Override
 	/**
-	 * Desenha as linhas diagonais quando a variável tem lixo e o valor quando este for definido
+	 * Desenha as linhas diagonais quando a variável tem lixo, o valor quando este for definido e uma bolinha quando a variável for anulada.
 	 */
 	public void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
-		
+		//se for lixo
 		if (lixo) {
 			Stroke s = g2d.getStroke();
 			g2d.setStroke(new BasicStroke((float) proporcao / 2.0f));
@@ -119,7 +119,38 @@ public abstract class VarLinha extends Variavel {
 				g2d.drawLine(x, 0, x + size.height, size.height);
 			}
 			g2d.setStroke(s);
-		} else {
+		//se houver um valor (não nulo)
+		} else if(this.texto != null){			
+			Font fonte = proporcional(Constantes.FONTE_VARIAVEL_PERSONALIZADA, getRealSize(), texto, g);
+			//Redimensiona a fonte conforme tamanho da variável
+			FontMetrics metrics = g.getFontMetrics(fonte);
+			Rectangle2D bounds = metrics.getStringBounds(texto, g);
+			Dimension my_size = getRealSize();
+			//Encontra ponto central
+			int center_x = my_size.width / 2;
+			int center_y = my_size.height / 2;
+			
+			int pos_x = center_x - (int) bounds.getWidth() / 2;
+			int pos_y = center_y + (int) bounds.getHeight() / 2;
+			
+			g2d.setFont(fonte);
+			g2d.setColor(Constantes.COR_FONTE);
+			g2d.drawString(texto, pos_x, pos_y);
+			
+			Dimension size = getRealSize();
+			if (bounds.getWidth() > size.getWidth()) {
+				int fonte_height = (int) Math.ceil(bounds.getHeight());
+				float offset = (float) (Constantes.LARGURA_BORDA * proporcao);
+				int y = (int) Math.ceil(fonte_height + offset*0.7);
+				int s = (int) Math.ceil(offset);
+				double x = size.getWidth();
+				g2d.fillOval((int) Math.ceil(x - 2.0*s), y, s, s);
+				g2d.fillOval((int) Math.ceil(x - 3.5*s), y, s, s);
+				g2d.fillOval((int) Math.ceil(x - 5.0*s), y, s, s);
+			}
+		//se o valor for nulo (variável anulada) escreve o caracter '•' centralizado
+		} else {			
+			this.texto = "•";
 			Font fonte = proporcional(Constantes.FONTE_VARIAVEL_PERSONALIZADA, getRealSize(), texto, g);
 			g2d.setFont(fonte);
 			g2d.setColor(Constantes.COR_FONTE);
@@ -127,12 +158,11 @@ public abstract class VarLinha extends Variavel {
 			FontMetrics metrics = g.getFontMetrics(fonte);
 			Rectangle2D bounds = metrics.getStringBounds(texto, g);
 			int fonte_height = (int) Math.ceil(bounds.getHeight());
-			float offset = (float) (Constantes.LARGURA_BORDA * proporcao);
+			float offset = (float) ((getRealSize().getWidth()/2 - 3) * proporcao);
 			g2d.drawString(texto, offset, fonte_height);
 			
 			Dimension size = getRealSize();
-			if (bounds.getWidth() > size.getWidth()) 
-			{
+			if (bounds.getWidth() > size.getWidth()) {
 				/*
 				bounds = metrics.getStringBounds("...", g2d);
 				g2d.drawString("...", 
@@ -146,6 +176,7 @@ public abstract class VarLinha extends Variavel {
 				g2d.fillOval((int) Math.ceil(x - 5.0*s), y, s, s);
 			}
 		}
+		
 	}
 	
 	/**

@@ -80,7 +80,7 @@ public class VarPointer extends VarLinha {
 	public VarPointer criarCopia() {
 		VarPointer ret = new VarPointer(nome, cor, dimensao, posicao);
 		ret.valor = valor;
-		ret.setTexto("'" + valor + "'");
+		ret.setTexto(valor);
 		ret.lixo = lixo;
 		ret.modificado = modificado;
 		modificado = false;
@@ -107,17 +107,14 @@ public class VarPointer extends VarLinha {
 	
 	@Override
 	public void setValor(Object valor) {
-		if (valor == null)
-			lixo = true;
-		else {
+		//quando o valor for nulo (ponteiro anulado),anula o valor do texto 
+		if (valor == null){
+			this.valor = (String)valor;
+			this.setTexto(null);
 			lixo = false;
-			this.valor = (String) valor;
-			String v = new String(this.valor);
-			v = v.replace("\\", "\\\\").replace("'", "\\'");
-			v = v.replace("\n", "\\n").replace("\r", "\\r");
-			v = v.replace("\t", "\\t");
-			v = "'" + v + "'";
-			this.setTexto(v);
+		}
+		else {
+			lixo = true;
 		}
 	}
 	

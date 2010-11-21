@@ -13,6 +13,7 @@ import tirateima.gui.variaveis.VarBoolean;
 import tirateima.gui.variaveis.VarChar;
 import tirateima.gui.variaveis.VarInteger;
 import tirateima.gui.variaveis.VarMatriz;
+import tirateima.gui.variaveis.VarPointer;
 import tirateima.gui.variaveis.VarReal;
 import tirateima.gui.variaveis.VarRecord;
 import tirateima.gui.variaveis.VarString;
@@ -80,6 +81,9 @@ public abstract class Command {
 				break;
 			case BOOLEAN:
 				v = new VarBoolean(var_def.getName(), var_def.getColor(), var_def.getDimension(), var_def.getPosicao());
+				break;
+			case POINTER:
+				v = new VarPointer(var_def.getName(), var_def.getColor(), var_def.getDimension(), var_def.getPosicao());
 				break;
 			case RECORD:
 				if (!g.declared_records.containsKey(t.getName()))

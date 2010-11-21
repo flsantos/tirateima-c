@@ -1,0 +1,10 @@
+3;
+4 {int numero cor(150,150,150) tamanho(80,30) posicao (20,90); 
+   comenta("Declaração da variável número.");}
+5 {pointer p1 cor(150,150,255) tamanho(50,20) posicao (32,160);
+   comenta("Declaração do ponteiro que aponta para variáveis do tipo inteiro.");}
+6;
+7;
+8 numero = 10;
+9 writeln("10");
+10;

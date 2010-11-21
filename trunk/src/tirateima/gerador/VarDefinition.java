@@ -22,6 +22,7 @@ public class VarDefinition implements TiraTeimaParserConstants {
 	private Color corExterna;
 	private Dimension dimension;
 	private Point posicao;
+	private String direcaoSeta;
 	
 	/** Construtor de variável padrão */
 	public VarDefinition(Type type, String name, Index index) {
@@ -51,6 +52,22 @@ public class VarDefinition implements TiraTeimaParserConstants {
 		this.posicao = posicao;
 	}
 	
+	/** Construtor de variável do tipo ponteiro */
+	public VarDefinition(Type type, String name, Index index, Dimension dimension, Point posicao, String direcaoSeta) {
+		this.type = type;
+		this.name = name;
+		this.index = index;
+		this.dimension = dimension;
+		this.posicao = posicao;
+		this.direcaoSeta = direcaoSeta;
+	}
+	
+	
+	
+	public String getDirecaoSeta() {
+		return direcaoSeta;
+	}
+
 	public Type getType() {
 		return type;
 	}

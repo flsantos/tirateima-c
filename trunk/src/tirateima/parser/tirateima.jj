@@ -191,6 +191,7 @@ Type type() : {
 		(t = <KW_CHAR> {return new Type(TypeId.CHAR);}) |
 		(t = <KW_STRING> {return new Type(TypeId.STRING);}) |
 		(t = <KW_BOOLEAN> {return new Type(TypeId.BOOLEAN);}) |
+		(t = <KW_POINTER> {return new Type(TypeId.POINTER);}) |
 		(t = <IDENTIFIER> {return new Type(TypeId.RECORD, t.image);})
 	)
 }
@@ -472,6 +473,7 @@ Type function_type() : {
 		(t = <KW_CHAR> {return new Type(TypeId.CHAR);}) |
 		(t = <KW_STRING> {return new Type(TypeId.STRING);}) |
 		(t = <KW_BOOLEAN> {return new Type(TypeId.BOOLEAN);}) |
+		(t = <KW_POINTER> {return new Type(TypeId.POINTER);}) |
 		(t = <KW_VOID> {return new Type(TypeId.VOID);}) |
 		(t = <IDENTIFIER> {return new Type(TypeId.RECORD, t.image);})
 	)
@@ -631,6 +633,7 @@ TOKEN [IGNORE_CASE] : {
 	<KW_CHAR : "char"> |
 	<KW_STRING : "string"> |
 	<KW_BOOLEAN : "boolean"> |
+	<KW_POINTER : "pointer"> |
 	<KW_VOID : "void"> |
 	<KW_TEXT : "text">  |
 	<KW_WRITE : "write"> |

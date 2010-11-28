@@ -18,11 +18,22 @@
 package tirateima.gui.variaveis;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
+
+import javax.swing.JFrame;
+
+import tirateima.gui.Constantes;
 
 /**
  * Representa uma variável do tipo pointer.
@@ -32,7 +43,10 @@ import java.io.Writer;
  */
 @SuppressWarnings("serial")
 public class VarPointer extends VarLinha {
+	
 	private String valor = "";
+	private String direcao_seta;
+	private Integer tamanho_seta;
 	
 	/**
 	 * Cria uma nova variável do tipo string. 
@@ -83,6 +97,8 @@ public class VarPointer extends VarLinha {
 		ret.setTexto(valor);
 		ret.lixo = lixo;
 		ret.modificado = modificado;
+		ret.tamanho_seta = this.tamanho_seta;
+		ret.direcao_seta = this.direcao_seta;
 		modificado = false;
 		return ret;
 	}
@@ -113,9 +129,23 @@ public class VarPointer extends VarLinha {
 			this.setTexto(null);
 			lixo = false;
 		}
-		else {
+		//quando o valor for vazio, aceita pintando apenas tudo de branco.
+		else if (valor.equals("")){
+			this.valor = (String)valor;
+			lixo = false;
+		}else{
 			lixo = true;
 		}
+	}
+	
+	/**
+	 * Cria uma seta na variavel.
+	 * @param direcao
+	 * @param tamanho
+	 */
+	public void setArrow(String direcao, Integer tamanho) {
+		this.direcao_seta = direcao;
+		this.tamanho_seta = tamanho;
 	}
 	
 	public int readData(BufferedReader buffer) throws IOException{
@@ -156,5 +186,13 @@ public class VarPointer extends VarLinha {
 		
 		buffer.write(Integer.toString(tam) + "\n");
 		buffer.write(valor);
+	}
+	
+	public String getDirecao_seta() {
+		return direcao_seta;
+	}
+	
+	public Integer getTamanho_seta() {
+		return tamanho_seta;
 	}
 }

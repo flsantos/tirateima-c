@@ -22,6 +22,7 @@ import tirateima.gerador.CommandAttribution;
 import tirateima.gerador.CommandNewType;
 import tirateima.gerador.CommandNewVar;
 import tirateima.gerador.CommandNewVarText;
+import tirateima.gerador.CommandDirectPointer;
 import tirateima.gerador.FunctionDeclaration;
 import tirateima.gerador.CommandStartFunction;
 import tirateima.gerador.CommandEndFunction;
@@ -134,6 +135,7 @@ void command(Step p) : {}
 	cmd_new_type(p) |
 	cmd_new_var(p) |
 	cmd_atrib(p) |
+	cmd_direct_pointer(p) |
 	cmd_new_file(p) |
 	function_declaration(p) |
 	function_start(p) |
@@ -341,9 +343,9 @@ void cmd_new_var(Step p) : {
 	}
 }
 
-	/**	Chama a classe atribuição para representação de atribuição de valor à uma variável
-	*	@param Step
-	*/
+/**	Chama a classe atribuição para representação de atribuição de valor à uma variável
+*	@param Step
+*/
 void cmd_atrib(Step p) : {
 	Stack<Object> var_stack = new Stack<Object>();
 	Object value;
@@ -357,6 +359,43 @@ void cmd_atrib(Step p) : {
 	}
 }
 
+/**	Aponta o ponteiro para outra variavel, representando-se essa operacao por meio de uma seta de tamanho determinado
+* apontada para uma direcao que pode ser cima, baixo, esquerda, direita
+*	@param Step
+*/
+void cmd_direct_pointer(Step p) :{
+  	Stack<Object> var_stack = new Stack<Object>();
+	String direcao;
+	Integer tamanho;} 
+{
+	variavel(var_stack)
+	<KW_POINT>
+	<OPEN_PAR>
+	direcao = direction()	  
+	<COMMA>
+	tamanho = size()
+	<CLOSE_PAR>
+	<SEMICOLON>	{
+	  p.addCommand(new CommandDirectPointer(var_stack, direcao, tamanho));	}
+}
+
+String direction() :{
+	Token t_direction;}
+{
+	t_direction = <KW_CIMA>		{return new String("cima");} |
+	t_direction = <KW_BAIXO>
+		{return new String("baixo");} |
+	t_direction = <KW_ESQUERDA> 
+		{return new String("esquerda");} | 
+	t_direction = <KW_DIREITA>
+		{return new String("direita");}}
+
+Integer size() :
+{	Token t_size;
+}
+{	t_size = <INT_NUMBER>	{	  return Integer.parseInt(t_size.image);
+	}
+}
 	/**	
 	*	
 	*	
@@ -376,10 +415,6 @@ void variavel(Stack<Object> var_stack) : {
 	)*
 }
 
-	/**	
-	*	
-	*	
-	*/
 Object constant() : {
 	Token t;
 }
@@ -654,7 +689,12 @@ TOKEN [IGNORE_CASE] : {
 	<KW_END : "end"> |
 	<KW_TRUE : "true"> |
 	<KW_FALSE : "false"> |
-	<KW_NULL : "null"> | 
+	<KW_NULL : "null"> |
+	<KW_POINT : "aponta"> |
+	<KW_CIMA : "cima"> |
+	<KW_BAIXO : "baixo"> |
+	<KW_ESQUERDA : "esquerda"> |
+	<KW_DIREITA : "direita"> |
 	<KW_COLOR : "cor"> |
 	<KW_COLOR_INSIDE : "corexterna"> |
 	<KW_DIMENSION : "tamanho"> |

@@ -44,6 +44,7 @@ import tirateima.IEstado;
  * @author Felipe Lessa
  * @author Luciano Santos
  * @author Andrew Biller
+ * @author Vinícius
  */
 @SuppressWarnings("serial")
 public class Mostrador extends JScrollPane implements IEstado {
@@ -65,6 +66,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 	private double prop = -100.0;
 	private Point ultimoPonto;
 	private Variaveis vars = new Variaveis();
+	private Setas setas = new Setas();
 	private JPanel painelPrincipal;
 	private Painel painelVars = null;
 	private Function function = null;
@@ -145,6 +147,23 @@ public class Mostrador extends JScrollPane implements IEstado {
 	}
 	
 	/**
+	 * Cria uma seta em uma variável
+	 * @param nome
+	 * @param direcao
+	 * @param tamanho
+	 */
+	public void adicionarSeta(String nome, Seta s) {
+		if(!hasVariavel(nome)){
+			throw new RuntimeException("Variavel " + nome + " nao localizada.");
+		}		
+		if (function != null) {
+			function.adicionarSeta(nome,s);
+		} else {
+			setas.adicionarSeta(nome, s);
+		}
+	}
+	
+	/**
 	 * Modifica o valor de uma variável.
 	 * @param nome   nome da variável a ser modificada.
 	 * @param valor  seu novo valor.
@@ -176,13 +195,12 @@ public class Mostrador extends JScrollPane implements IEstado {
 	
 	public Object getEstado() {
 		return new EstadoMostrador(
-				new Painel(vars),
+				new Painel(vars,setas),
 				function);
 	}
 
 	public void setEstado(Object estado) {
 		//esconde durante o desenho: evita flicker na tela
-		//TODO voltar valor abaixo para false, só testando  desenho.
 		painelPrincipal.setVisible(false);
 		
 		painelPrincipal.removeAll();
@@ -202,6 +220,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 			
 			painelPrincipal.add(painelVars, gbc);
 			painelVars.criar();
+			
 			painelVars.setProporcao(prop < 0 ? 1.0 : prop);
 			
 			if (function != null) {
@@ -220,17 +239,16 @@ public class Mostrador extends JScrollPane implements IEstado {
 			Point p = new Point((int) Math.round(x), (int) Math.round(y));
 			viewport.setViewPosition(p);
 		}
+
 		
 		validate();
 		repaint();
+
 		
 		//mostra depois de ter desenhado o estado
-		painelPrincipal.setVisible(true);
+		painelPrincipal.setVisible(Boolean.TRUE);
 	}
 
-	
-	
-	
 	
 	@Override
 	public void processMouseEvent(MouseEvent e) {
@@ -244,7 +262,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 			super.processMouseEvent(e);
 		}
 	}
-
+      
 	@Override
 	public void processMouseMotionEvent(MouseEvent e) {
 		try {
@@ -297,8 +315,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 	public boolean hasVariavel(String nome) {
 		return vars.contains(nome) ||
 			(function != null ? function.hasVariavel(nome) : false);
-	}
-	
+	}	
 	
 	/**
 	 * Contém as variáveis *sem* mostrá-las.
@@ -312,7 +329,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 		public Variaveis() {
 			this.variaveis = new HashMap<String, Variavel>();
 		}
-		
+
 		/**
 		 * Adiciona uma variável ao contêiner.
 		 * @param v  variável a ser adicionada.
@@ -380,56 +397,117 @@ public class Mostrador extends JScrollPane implements IEstado {
 		}
 	}
 	
+	protected class Setas {
+		private HashMap<String, Seta> setas;
+		
+		/**
+		 * Constroi um container vazio.
+		 */
+		public Setas(){
+			this.setas = new HashMap<String, Seta>();
+		}
+		
+		
+		
+		public HashMap<String, Seta> getSetas() {
+			return setas;
+		}
+
+
+
+		/**
+		 * Adiciona uma seta
+		 * @param String nome a ser adicionado.
+		 * @param Seta s a ser adicionada.
+		 */
+		public void adicionarSeta(String nome, Seta s){
+			this.setas.put(nome, s);
+		}
+		
+		/**
+		 * Remove uma seta
+		 */
+		public void removerSeta(String nome){
+			setas.remove(nome);
+		}
+		
+		/**
+		 * Descobre se uma seta esta contida no conjunto
+		 * @param nome
+		 * @return
+		 */
+		public boolean contains(String nome) {
+			return setas.containsKey(nome);
+		}
+
+
+
+		public Setas criarCopia() {
+			Setas setasCopia = new Setas();
+			for(Seta seta : setas.values()){
+				Seta setaCopia = seta.criarCopia();
+				setasCopia.adicionarSeta(seta.nome, setaCopia);
+			}
+			return setasCopia;
+		}
+
+	}
+	
 	/**
 	 * Painel que mostra variáveis *estaticamente*, i.e. o conteúdo 
 	 * delas *não* deve ser alterado. Este é o estado! =)
 	 */
 	protected class Painel extends JPanel {
-		private HashMap<Color, ArrayList<Variavel>> map;
+		private HashMap<Color, ArrayList<Variavel>> mapaVariaveis;
 		private ArrayList<Janela> janelas = new ArrayList<Janela>();
-
-
+		private Setas setas;
 
 		/**
 		 * Cria um painel. 
 		 * @see #criar()
 		 */
-		public Painel(Variaveis v) {
+		public Painel(Variaveis v,Setas setas) {
 			super();
 			assert (v != null);
-			this.map = v.criarCopia();
+			this.mapaVariaveis = v.criarCopia();
+			this.setas = setas.criarCopia();
 			setLayout(new GridBagLayout());
 		}
-		
+
+
+		public void adicionarSeta(String nome, Seta s) {
+			if(this.setas == null){
+				this.setas = new Setas();
+			}
+			this.setas.adicionarSeta(nome, s);
+		}
+
+
 		/**
 		 * Cria os painéis interiores. Chame este método *após* adicionar
 		 * este painel a outro componente.
 		 * Desenha todas as variáveis na tela do mostrador
 		 */
 		public void criar() {
-			if (map == null) return;
+			if (mapaVariaveis == null) return;
 			
 			//Absolute Positioning (sem layout para permitir o posicionamento pelo usuario)
 			tudo.setLayout(null);
 			tudo.removeAll();
 			this.add(tudo);
-			
 			List<Point> coordenadas = new ArrayList<Point>();
 			int maxHeight = 0;
 			int maxWidth = 0;
-			Color[] cores = map.keySet().toArray(new Color[] {}); 
+			Color[] cores = mapaVariaveis.keySet().toArray(new Color[] {});
 			Arrays.sort(cores, comparadorColor);
 			for (Color cor : cores) {
-				Variavel[] vars = map.get(cor).toArray(new Variavel[] {});
-				Arrays.sort(vars, comparadorVariavel);
-				
+				Variavel[] vars = mapaVariaveis.get(cor).toArray(new Variavel[] {});
+				Arrays.sort(vars, comparadorVariavel);			
 				for (Variavel v : vars) {
 					Janela j = new Janela(v);
-					
 					tudo.add(j);
 					janelas.add(j);
 					j.validate();
-					
 					Dimension size = v.dimensao;
 					if(size == null) size = j.getSize();
 					if(size.height > maxHeight) maxHeight = size.height;
@@ -442,6 +520,16 @@ public class Mostrador extends JScrollPane implements IEstado {
 					j.setPreferredSize(size);
 					j.setLocation(point);
 					j.posicaoOriginal = point;
+					if (this.setas.contains(v.nome)){
+						Seta seta = setas.setas.get(v.nome);
+						tudo.add(seta);
+						seta.validate();
+						Point pontoSeta = seta.calculaPosicao(v);
+						coordenadas.add(pontoSeta);
+						seta.setLocation(pontoSeta);
+						seta.posicaoOriginal = pontoSeta;
+						tudo.setComponentZOrder(seta, tudo.getComponentZOrder(j) - 1);
+					}
 				}
 			}
 		}
@@ -454,8 +542,11 @@ public class Mostrador extends JScrollPane implements IEstado {
 			for (Janela j : janelas){
 				j.setProporcao(prop);
 			}
+			for (Seta s : setas.setas.values()){
+				s.setProporcao(prop);
+			}
 			
-			calculaZoom(janelas, prop);
+			calculaZoom(janelas,setas, prop);
 			this.validate();
 			this.validate();
 			this.validate();
@@ -466,7 +557,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 		 * @param janelas
 		 * @param prop
 		 */
-		private void calculaZoom(ArrayList<Janela> janelas, double prop){
+		private void calculaZoom(ArrayList<Janela> janelas, Setas setas, double prop){
 			prop = Math.nextUp(prop);
 			Dimension real = new Dimension(0,0);
 			for (Janela j : janelas){
@@ -532,8 +623,57 @@ public class Mostrador extends JScrollPane implements IEstado {
 					}
 				}
 				
-			};
-				
+			}
+			for (Seta s : setas.setas.values()){				
+				int tmp;
+				//Aumenta a distancia entre as janelas também
+				if(acaoZoom != null){
+					if(s.getLocation().x > 0){
+						tmp = s.getLocation().y;
+						if(acaoZoom == zoom.AUMENTA && prop > 1){
+							s.setLocation((int) (s.posicaoOriginal.x * (prop)), tmp);
+						}
+						
+						if(acaoZoom == zoom.DIMINUI && prop > 1){
+							s.setLocation((int) (s.posicaoOriginal.x * (prop)), tmp);
+						}
+					}
+						
+					if(s.getLocation().y > 0){
+						tmp = s.getLocation().x;
+						if(acaoZoom == zoom.AUMENTA && prop > 1){
+							s.setLocation(tmp, (int) (s.posicaoOriginal.y * (prop)));
+						}
+						if(acaoZoom == zoom.DIMINUI && prop > 1){
+							s.setLocation(tmp, (int) (s.posicaoOriginal.y * (prop)));
+						}
+					}
+					
+					//Reset de zoom
+					if(acaoZoom == zoom.REINICIA){
+						s.setLocation(s.posicaoOriginal);
+					}
+					
+				//Atualizacao se refere a uma nova tela. Manter zoom escolhido
+				}else{
+					if(s.getLocation().x > 0){
+						tmp = s.getLocation().y;
+						if(prop > 1)
+							s.setLocation((int) (s.getLocation().x * (prop)), tmp);
+					}
+						
+					if(s.getLocation().y > 0){
+						tmp = s.getLocation().x;
+						if(prop > 1)
+							s.setLocation(tmp, (int) (s.getLocation().y * (prop)));
+					}
+					
+					//Reset de zoom
+					if(prop == 1){
+						s.setLocation(s.posicaoOriginal);
+					}
+				}				
+			}	
 			acaoZoom = null;
 			validate();
 			repaint();
@@ -552,5 +692,15 @@ public class Mostrador extends JScrollPane implements IEstado {
 			if (function != null)
 				this.estadoFunction = function.getEstado();
 		}
+	}
+	
+	/**
+	 * Remove a seta relativa a variável, caso haja se ela for um ponteiro.
+	 * @param nome_var
+	 */
+	public void removerSeta(String nome_var) {
+		if(setas.setas.containsKey(nome_var)){
+			setas.setas.remove(nome_var);
+		}		
 	}
 }

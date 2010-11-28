@@ -8,6 +8,7 @@ import java.util.Stack;
 
 import tirateima.Par;
 import tirateima.gui.variaveis.Mostrador;
+import tirateima.gui.variaveis.Seta;
 import tirateima.gui.variaveis.VarArray;
 import tirateima.gui.variaveis.VarBoolean;
 import tirateima.gui.variaveis.VarChar;
@@ -94,7 +95,7 @@ public abstract class Command {
 						var_def.getcorExterna(), var_def.getDimension(), var_def.getPosicao());
 				break;
 		}
-		/** Se houver variável, define seus parâmetros de visualização */
+		/** Se for uma variável composta (array ou registro) entra */
 		if ((i = var_def.getIndex()) != null) {
 			try {
 				if (i.isMatrix) {
@@ -152,6 +153,30 @@ public abstract class Command {
 	}
 	
 	/**
+	 * Insere uma seta na variavel de pilha para representar um ponteiro.
+	 * Possui direcao e tamanho especificados.
+	 * @param mostrador
+	 * @param var_stack
+	 * @param direcao
+	 * @param tamanho
+	 */
+	protected void criarSeta(Mostrador mostrador, Stack<Object> var_stack,
+			String direcao, Integer tamanho) throws TiraTeimaLanguageException{
+		
+		Object parent;
+		
+		parent = var_stack.pop();
+				
+		String nome_var = (String) parent;
+		if (!mostrador.hasVariavel(nome_var))
+			gerarErro("Variavel '" + nome_var + "' não foi declarada!");
+		mostrador.adicionarSeta(nome_var,new Seta(nome_var,direcao,tamanho));
+		mostrador.modificarVariavel(nome_var, "");
+	}
+	
+	
+	
+	/**
 	 * Seta o valor de uma variável no mostrador, respeitando o escopo.
 	 * 
 	 * @param mostrador
@@ -196,6 +221,7 @@ public abstract class Command {
 			gerarErro("Variavel '" + nome_var + "' não foi declarada!");
 		try {
 			mostrador.modificarVariavel(nome_var, value);
+			mostrador.removerSeta(nome_var);
 		} catch (ClassCastException e) {
 			gerarErro("Atribuição inválida!");
 		}

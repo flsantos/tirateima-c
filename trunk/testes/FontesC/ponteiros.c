@@ -7,5 +7,6 @@ int main(int argc, char *argv[]){
     p = &numero;
     numero = 10;
     printf("%d",*p);
+    p = NULL;
     return 0;
 }

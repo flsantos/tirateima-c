@@ -149,7 +149,7 @@ public abstract class VarLinha extends Variavel {
 				g2d.fillOval((int) Math.ceil(x - 5.0*s), y, s, s);
 			}
 		//se o valor for nulo (variável anulada) escreve o caracter '•' centralizado
-		} else {			
+		} else {			 
 			this.texto = "•";
 			Font fonte = proporcional(Constantes.FONTE_VARIAVEL_PERSONALIZADA, getRealSize(), texto, g);
 			g2d.setFont(fonte);

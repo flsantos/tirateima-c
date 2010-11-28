@@ -279,11 +279,6 @@ public abstract class Variavel extends JComponent implements IDataReader {
 		super.paint(g);
 	}
 	
-	
-	
-	
-	
-	
 	// Não vamos usar estes métodos, mesmo porque dependendo da proporção
 	// uma determinada variável pode ficar "invisível" de tão pequena.
 	@Override

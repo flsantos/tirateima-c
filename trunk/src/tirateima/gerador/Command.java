@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import tirateima.Par;
+import tirateima.gui.variaveis.Direcao;
 import tirateima.gui.variaveis.Mostrador;
 import tirateima.gui.variaveis.Seta;
 import tirateima.gui.variaveis.VarArray;
@@ -161,7 +162,7 @@ public abstract class Command {
 	 * @param tamanho
 	 */
 	protected void criarSeta(Mostrador mostrador, Stack<Object> var_stack,
-			String direcao, Integer tamanho) throws TiraTeimaLanguageException{
+			Direcao direcao, Integer tamanho) throws TiraTeimaLanguageException{
 		
 		Object parent;
 		

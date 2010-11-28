@@ -13,7 +13,7 @@ public class Seta extends JComponent {
 	
 	private static final long serialVersionUID = 101L;
 	String nome;
-	String direcao;
+	Direcao direcao;
 	Integer tamanho;
 	protected double proporcao = 1.0;
 	Point posicaoOriginal;
@@ -22,7 +22,7 @@ public class Seta extends JComponent {
 		super();
 	}
 	
-	public Seta(String nome, String direcao, Integer tamanho) {
+	public Seta(String nome, Direcao direcao, Integer tamanho) {
 		this.nome = nome;
 		this.direcao = direcao;
 		this.tamanho = tamanho;
@@ -58,7 +58,7 @@ public class Seta extends JComponent {
 		Integer  valMaior = (int)Math.round(10*proporcao);
 		Integer  valMedio = (int)Math.round(5*proporcao);
 		Integer  valMenor = 0;
-		if(this.direcao.equals("baixo")){
+		if(this.direcao == Direcao.BAIXO){
 			//desenha a base da seta
 			g2d.drawLine(valMedio, valMenor, valMedio, alturaBase);
 			//desenha o triangulo da seta			
@@ -66,21 +66,21 @@ public class Seta extends JComponent {
 			triangulo.addPoint(valMaior, alturaBase);
 			triangulo.addPoint(valMenor, alturaBase);		
 		}
-		else if(this.direcao.equals("cima")){
+		else if(this.direcao == Direcao.CIMA){
 			//desenha a base da seta
 			g2d.drawLine(valMedio, descontoSeta,valMedio, tamanhoSeta);
 			//desenha o triangulo da seta
 			triangulo.addPoint(valMedio,valMenor);
 			triangulo.addPoint(valMenor,descontoSeta);
 			triangulo.addPoint(valMaior,descontoSeta);
-		}else if(this.direcao.equals("esquerda")){
+		}else if(this.direcao == Direcao.ESQUERDA){
 			//desenha a base da seta
 			g2d.drawLine(descontoSeta,valMedio,tamanhoSeta,valMedio);
 			//desenha o triangulo da seta
 			triangulo.addPoint(valMenor,valMedio);
 			triangulo.addPoint(descontoSeta,valMenor);
 			triangulo.addPoint(descontoSeta,valMaior);
-		}else if(this.direcao.equals("direita")){
+		}else if(this.direcao == Direcao.DIREITA){
 			//desenha a base da seta
 			g2d.drawLine(valMenor,valMedio,alturaBase,valMedio);
 			//desenha o triangulo da seta
@@ -111,21 +111,21 @@ public class Seta extends JComponent {
 		Integer larguraReal = v.getRealSize().width;
 		Integer alturaReal = v.getRealSize().height;
 		//se a seta for para baixo ou par direita, posiciona sua origem no centro da variavel.
-		if(this.direcao.equals("baixo")){
+		if(this.direcao == Direcao.BAIXO){
 			x = v.posicao.x + larguraReal/2 - (int)Math.nextUp(4.0 * v.proporcao);
 			y = v.posicao.y + alturaReal/2 + (int)Math.nextUp(14 * v.proporcao);
 		}
-		else if(this.direcao.equals("direita")){
+		else if(this.direcao == Direcao.DIREITA){
 			x = v.posicao.x + larguraReal/2;
 			y = v.posicao.y + alturaReal/2 + (int)Math.nextUp(8 * v.proporcao);			
 		}
 		//se a seta for para cima, prosiciona sua origem sobre a variavel
-		else if(this.direcao.equals("cima")){
+		else if(this.direcao == Direcao.CIMA){
 			x = v.posicao.x + larguraReal/2 - (int)Math.nextUp(4 * v.proporcao);
 			y = v.posicao.y + alturaReal/2 + (int)Math.nextUp(14 * v.proporcao) - this.tamanho;
 		}
 		//se a seta for para esquerda, posiciona sua origem `a esquerda da variavel
-		else if(this.direcao.equals("esquerda")){
+		else if(this.direcao == Direcao.ESQUERDA){
 			x = v.posicao.x + larguraReal/2  - this.tamanho;
 			y = v.posicao.y + alturaReal/2 + (int)Math.nextUp(8 * v.proporcao);
 		}else{

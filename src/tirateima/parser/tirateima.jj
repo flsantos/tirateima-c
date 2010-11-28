@@ -33,6 +33,8 @@ import tirateima.gerador.Type;
 import tirateima.gerador.TypeId;
 import tirateima.gerador.VarDefinition;
 
+import tirateima.gui.variaveis.Direcao;
+
 public class TiraTeimaParser {
 
 	/** Trata a string caractere a caractere, e troca as substrings de caracteres de escape 
@@ -365,7 +367,7 @@ void cmd_atrib(Step p) : {
 */
 void cmd_direct_pointer(Step p) :{
   	Stack<Object> var_stack = new Stack<Object>();
-	String direcao;
+	Direcao direcao;
 	Integer tamanho;} 
 {
 	variavel(var_stack)
@@ -379,16 +381,16 @@ void cmd_direct_pointer(Step p) :{
 	  p.addCommand(new CommandDirectPointer(var_stack, direcao, tamanho));	}
 }
 
-String direction() :{
+Direcao direction() :{
 	Token t_direction;}
 {
-	t_direction = <KW_CIMA>		{return new String("cima");} |
+	t_direction = <KW_CIMA>		{return Direcao.CIMA;} |
 	t_direction = <KW_BAIXO>
-		{return new String("baixo");} |
+		{return Direcao.BAIXO;} |
 	t_direction = <KW_ESQUERDA> 
-		{return new String("esquerda");} | 
+		{return Direcao.ESQUERDA;} | 
 	t_direction = <KW_DIREITA>
-		{return new String("direita");}}
+		{return Direcao.DIREITA;}}
 
 Integer size() :
 {	Token t_size;

@@ -2,13 +2,15 @@ package tirateima.gerador;
 
 import java.util.Stack;
 
+import tirateima.gui.variaveis.Direcao;
+
 public class CommandDirectPointer extends Command {
 	
 	private Stack<Object> var_stack;
-	String direcao;
+	Direcao direcao;
 	Integer tamanho;
 
-	public CommandDirectPointer(Stack<Object> var_stack, String direcao,
+	public CommandDirectPointer(Stack<Object> var_stack, Direcao direcao,
 			Integer tamanho) {
 		this.var_stack = var_stack;
 		this.direcao = direcao;

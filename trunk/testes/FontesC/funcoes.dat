@@ -1,0 +1,13 @@
+1 function incrementa():void;
+7;
+8 int x cor(150,150,150) tamanho(50,20) posicao (20,20);
+9 x = 10;
+10;
+3 {start incrementa(); pointer p cor(150,150,255) tamanho(50,20) posicao (80,20);}
+4 x = 11;
+5 end;
+10;
+11 writeln("11");
+12;
+
+

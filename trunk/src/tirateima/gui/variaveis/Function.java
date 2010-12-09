@@ -48,7 +48,7 @@ public class Function extends Mostrador {
 		
 		boolean is_void = (type.getId().equals(TypeId.VOID));
 		
-		titulo.append(is_void ? "procedure " : "funcion ");
+		titulo.append(is_void ? "procedure " : "function ");
 		titulo.append(nome);
 		titulo.append("(");
 		

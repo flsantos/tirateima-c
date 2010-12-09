@@ -18,22 +18,11 @@
 package tirateima.gui.variaveis;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
-
-import javax.swing.JFrame;
-
-import tirateima.gui.Constantes;
 
 /**
  * Representa uma variável do tipo pointer.
@@ -105,7 +94,7 @@ public class VarPointer extends VarLinha {
 	
 	@Override
 	public String typeName() {
-		return "string";
+		return "pointer";
 	}
 	
 	@Override
@@ -136,16 +125,6 @@ public class VarPointer extends VarLinha {
 		}else{
 			lixo = true;
 		}
-	}
-	
-	/**
-	 * Cria uma seta na variavel.
-	 * @param direcao
-	 * @param tamanho
-	 */
-	public void setArrow(String direcao, Integer tamanho) {
-		this.direcao_seta = direcao;
-		this.tamanho_seta = tamanho;
 	}
 	
 	public int readData(BufferedReader buffer) throws IOException{

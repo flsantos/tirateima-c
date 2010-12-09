@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-int main(int argc, char *argv[]){
+/*int main(int argc, char *argv[]){
     int numero;
     int *p;
     p = NULL;
@@ -9,4 +9,4 @@ int main(int argc, char *argv[]){
     printf("%d",*p);
     p = NULL;
     return 0;
-}
+}*/

@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import tirateima.IEstado;
+import tirateima.gerador.TiraTeimaLanguageException;
 
 
 /**
@@ -487,8 +488,10 @@ public class Mostrador extends JScrollPane implements IEstado {
 		 * Cria os painéis interiores. Chame este método *após* adicionar
 		 * este painel a outro componente.
 		 * Desenha todas as variáveis na tela do mostrador
+		 * @throws Exception 
+		 * @throws TiraTeimaLanguageException 
 		 */
-		public void criar() {
+		public void criar(){
 			if (mapaVariaveis == null) return;
 			
 			//Absolute Positioning (sem layout para permitir o posicionamento pelo usuario)
@@ -702,5 +705,9 @@ public class Mostrador extends JScrollPane implements IEstado {
 		if(setas.setas.containsKey(nome_var)){
 			setas.setas.remove(nome_var);
 		}		
+	}
+
+	public Integer quantidadeDeVariaveis() {
+		return this.painelVars.janelas.size();
 	}
 }

@@ -539,6 +539,7 @@ List<VarDefinition> local_vars_block() : {
 				}
 			)*
 			<CLOSE_BRACE>
+			<SEMICOLON>
 		)
 	)
 	{return vars;}

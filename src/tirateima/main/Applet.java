@@ -129,7 +129,7 @@ public class Applet extends java.applet.Applet {
 		// Não usamos str_fonte mas pegamos como argumento para caso no
 		// futuro ele seja útil nós não tenhamos que reescrever todos
 		// os JavaScripts.
-		if (str_fonte != str_fonte) return;
+		if (str_fonte != str_texto) return;
 		abrirEntrada(normalizarURL(str_texto));
 	}
 	

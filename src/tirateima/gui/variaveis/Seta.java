@@ -108,8 +108,19 @@ public class Seta extends JComponent {
 	public Point calculaPosicao(Variavel v) {
 		Integer x;
 		Integer y;
+		//pega a largura e altura reais da variavel
 		Integer larguraReal = v.getRealSize().width;
 		Integer alturaReal = v.getRealSize().height;
+		//inicializa o que for necessario (larguraReal, alturaReal e proporcao)
+		if (larguraReal == 0){
+			larguraReal = v.dimensao.width;
+		}
+		if (alturaReal == 0){
+			alturaReal = v.dimensao.height;
+		}
+		if (v.proporcao == 0.0){
+			v.proporcao = 1.0;
+		}
 		//se a seta for para baixo ou par direita, posiciona sua origem no centro da variavel.
 		if(this.direcao == Direcao.BAIXO){
 			x = v.posicao.x + larguraReal/2 - (int)Math.nextUp(4.0 * v.proporcao);

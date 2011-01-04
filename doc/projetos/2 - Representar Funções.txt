@@ -1,0 +1,31 @@
+### Projeto - Representar Funções ###
+
+- Para declarar uma função o usuário deverá fazer
+
+1 function foo(int parametro cor(10,10,10) tamanho(50,20) posicao(10,10);) : int {int varLocal cor(10,10,10) tamanho(50,20) posicao(60,10);};
+
+em que se diz o nome da função, os parâmetros de entrada, o tipo de retorno (que poderá ser void) e as variáveis locais que poderão ser pré-declaradas. 
+
+- Para iniciar uma função deverá ser dado o comando
+
+2 start foo(parametroPassado);
+
+e apartir de então qualquer variável declarada será desenhada em um subpainel cujo título é 
+
+Função foo(int parametro):int
+
+em que se terá um resumo do nome, parâmetros e saída da função/procedimento.
+
+Obs1: o parametro passado deverá ser uma variável previamente declarada, e seu valor deverá ser copiado para os parametros da função.
+
+Obs2: quando o retorno for void, esse título será chamado de procedimento ao invés de função.
+
+- Para se finalizar uma função, deverá ser dado o comando
+
+3 end;
+
+de modo que com esse comando o subpainel some, junto com qualquer elemento pertencente ao escopo da função.
+
+- Um ponteiro deverá ser declarado normalmente, porém poderá ser inicializado passando-se como parâmetro o que seria o "endereço" de uma variável pré-declarada.
+
+2 start foo(parametroPassado);

@@ -619,9 +619,8 @@ List<Object> lst_args() : {
 	List<Object> result = new ArrayList<Object>();
 }
 {
-	<OPEN_PAR>
-	(a = arg(){result.add(a);})?
-	(<COMMA>(a = arg()){result.add(a);})*
+	<OPEN_PAR>	
+	  (a = arg(){result.add(a);})?		  (<COMMA>(a = arg()){result.add(a);})*
 	<CLOSE_PAR>{
 		return result;
 	}
@@ -701,7 +700,9 @@ TOKEN [IGNORE_CASE] : {
 	<KW_COLOR : "cor"> |
 	<KW_COLOR_INSIDE : "corexterna"> |
 	<KW_DIMENSION : "tamanho"> |
-	<KW_POSITION : "posicao">}
+	<KW_POSITION : "posicao">
+	}
+	
 
 // Constantes
 TOKEN : {

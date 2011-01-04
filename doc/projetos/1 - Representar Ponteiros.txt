@@ -1,26 +1,80 @@
 ### Projeto - Representar Ponteiros ###
 
-- O usu·rio dever· declarar um ponteiro da seguinte forma:
+- O usu√°rio dever√° declarar um ponteiro da seguinte forma:
 
 3 pointer p1 cor(150,150,150) tamanho(200,30) posicao (20,90);
 
-Obs: O comando È igual ao de outras vari·veis, mas tem a diferenÁa de ser do tipo ponteiro.
+Obs: O comando √© igual ao de outras vari√°veis, mas tem a diferen√ßa de ser do tipo ponteiro.
 
 
-- Para anular o ponteiro, o usu·rio dever· fazer:
+- Para anular o ponteiro, o usu√°rio dever√° fazer:
 
 4 p1 = null;
 
 
-- Para fazer com que o ponteiro aponte para uma vari·vel, dever· ser feito:
+- Para fazer com que o ponteiro aponte para uma vari√°vel, dever√° ser feito:
 
 5 p1 aponta(cima,30);
 
-Obs1: esse aponta cria uma seta para a direÁ„o indicada, que pode ser (cima, baixo, esquerda, direita). Essa seta ficar· no tamanho indicado pelo n˙mero seguinte (no exemplo, tamanho 30). 
+Obs1: esse aponta cria uma seta para a dire√ß√£o indicada, que pode ser (cima, baixo, esquerda, direita). Essa seta ficar√° no tamanho indicado pelo n√∫mero seguinte (no exemplo, tamanho 30). 
 
-Obs2: por motivo de simplificaÁ„o, esse ponteiro n„o poder· receber uma vari·vel, pois isso complicaria a lÛgica de desenho da seta, que deveria se auto-ajustar para apontar para a vari·vel destino.
+Obs2: por motivo de simplifica√ß√£o, esse ponteiro n√£o poder√° receber uma vari√°vel, pois isso complicaria a lÔøΩgica de desenho da seta, que deveria se auto-ajustar para apontar para a vari√°vel destino.
 
-- Para representar alocaÁ„o de memÛria, o usu·rio dever· combinar uma lista de comandos, fazendo:
+- Para representar aloca√ß√£o de mem√≥ria, o usu√°rio dever√° combinar uma lista de comandos, fazendo:
 
 6 {p1 aponta(baixo,30);int num1 cor(150,150,150) tamanho(200,30) posicao (20,90);}
 
+Obs3: Segue um comparativo entre o C e o Tira-Teima(TT) em rela√ß√£o a como usar ponteiros.
+
+# Declarar ponteiro:
+
+C:  int * p1;
+TT: pointer p1 cor(0,0,0) tamanho(50,20) posicao(10,10);
+
+Consequ√™ncia no TT: cria-se uma vari√°vel do tipo pointer.
+
+
+# Apontar ponteiro para vari√°vel:
+
+C: p1 = &a;
+TT: p1 aponta(cima,30);
+
+Consequ√™ncia no TT: cria-se uma seta apontando para a dire√ß√£o informada.
+
+
+# Declara√ß√£o de fun√ß√µes e passagem de endere√ßo de vari√°vel como par√¢metro:
+
+C:
+function foo(int * p1); 
+foo(&a);
+TT: 
+foo (pointer p1 cor(0,0,0) tamanho(50,20) posicao(10,10);) : void;
+foo(endereco a); //desde que se tenha declarado foo como recebendo um ponteiro.
+
+Consequ√™ncia no TT: cria-se um ponteiro com uma seta apontando para um texto com o nome da vari√°vel.
+
+
+# Anular ponteiro:
+
+C: p1 = NULL;
+TT: p1 = null;
+
+Consequ√™ncia no TT: cria-se uma bolinha no meio da vari√°vel indicando ponteiro nulo.
+
+
+# Acessar valor da regi√£o de mem√≥ria apontada pelo ponteiro:
+
+C: *p1 = 10;
+TT: n√£o possui.
+
+
+# Alocar mem√≥ria para o ponteiro:
+
+C: malloc(p1,sizeof(int));
+TT: n√£o possui;
+
+
+# Liberar ponteiro:
+
+C: free(p1);
+TT: n√£o possui.

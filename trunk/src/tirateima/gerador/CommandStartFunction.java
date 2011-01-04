@@ -8,7 +8,9 @@ import java.util.List;
  */
 public class CommandStartFunction extends Command {
 	
+	/** nome da função */
 	private String name;
+	/** lista de parâmetros de entrada da função */
 	private List<Object> args;
 	
 	public CommandStartFunction(String name, List<Object> args) {

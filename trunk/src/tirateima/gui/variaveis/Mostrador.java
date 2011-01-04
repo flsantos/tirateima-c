@@ -531,7 +531,15 @@ public class Mostrador extends JScrollPane implements IEstado {
 						coordenadas.add(pontoSeta);
 						seta.setLocation(pontoSeta);
 						seta.posicaoOriginal = pontoSeta;
-						tudo.setComponentZOrder(seta, tudo.getComponentZOrder(j) - 1);
+						Integer posicaoSeta;
+						Integer posicaoJanela = tudo.getComponentZOrder(j);
+						//coloca a seta sobre a janela para que ela apareça
+						if (posicaoJanela > 0){
+							posicaoSeta = posicaoJanela - 1;
+						} else {
+							posicaoSeta = 0;
+						}
+						tudo.setComponentZOrder(seta, posicaoSeta);
 					}
 				}
 			}

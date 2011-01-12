@@ -674,7 +674,8 @@ Object arg() : {
 }
 {
 	variavel(var_stack){return var_stack;} |
-	(o = constant()){return o;}
+	(o = constant()){return o;} |
+	<KW_ENDERECO> variavel(var_stack){return var_stack;}
 }
 
 	/**	
@@ -740,7 +741,8 @@ TOKEN [IGNORE_CASE] : {
 	<KW_DIMENSION : "tamanho"> |
 	<KW_POSITION : "posicao"> |
 	<KW_INSERE_TEXTO : "insere_texto"> |
-	<KW_CONTEUDO : "conteudo">
+	<KW_CONTEUDO : "conteudo"> |
+	<KW_ENDERECO : "endereco">
 	}
 	
 

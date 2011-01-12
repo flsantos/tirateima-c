@@ -26,4 +26,12 @@ Obs2: quando o retorno for void, esse título será chamado de procedimento ao i
 
 de modo que com esse comando o subpainel some, junto com qualquer elemento pertencente ao escopo da função.
 
-- Para facilitar a representação de ponteiros como parâmetros de entrada, haverá um comando de inserção de texto, que representará a referência para a variável.  
+- Para facilitar a representação de ponteiros como parâmetros de entrada, haverá um comando de inserção de texto, que representará a referência para a variável. Mais detalhes, ver o projeto de ponteiros.
+
+- Para passar uma variável por referência, deverá ser utilizada a palavra chave endereço, como segue
+
+1 function foo(pointer p cor(150,150,255) tamanho(50,20) posicao (20,60);):void;
+2 int x cor(150,150,150) tamanho(50,20) posicao (20,20);
+3 {start incrementa(endereco x); p aponta(cima,50); insere_texto conteudo("x") tamanho(12) posicao(34,10);}
+
+Repare que o tipo declarado é ponteiro, e o tipo passado é um inteiro, precedido da palavra "endereco" 

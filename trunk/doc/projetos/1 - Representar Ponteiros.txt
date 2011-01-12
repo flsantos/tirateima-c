@@ -19,6 +19,14 @@ Obs: O comando é igual ao de outras variáveis, mas tem a diferença de ser do 
 sendo que quando um ponteiro estiver dentro de uma função e quiser referenciar uma variável fora dessa função, poderá se usar o comando "insere_texto", e escrever o nome de uma variável que será referenciada.
 
 
+- Para fazer com que um ponteiro aponte para uma variável fora de uma função, deverá ser feito:
+
+1 function incrementa(pointer p cor(150,150,255) tamanho(50,20) posicao (20,60);):void;2 int x cor(150,150,150) tamanho(50,20) posicao (20,20);
+3 {start incrementa(endereco x); p aponta(cima,50); insere_texto conteudo("x") tamanho(12) posicao(34,10);}
+4 end;
+
+Repare-se que há uma palavra chave endereco, seguida de uma variavel que está fora da função, bem como há o comando insere_texto, que insere um texto no mostrador para representar a variável fora da função.
+
 - Para representar alocação de memória, o usuário deverá combinar uma lista de comandos, fazendo:
 
 6 {p1 aponta(baixo,30);int num1 cor(150,150,150) tamanho(200,30) posicao (20,90);}

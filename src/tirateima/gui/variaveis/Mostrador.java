@@ -19,6 +19,7 @@ package tirateima.gui.variaveis;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -31,6 +32,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -63,17 +66,22 @@ public class Mostrador extends JScrollPane implements IEstado {
 			}
 		};
 	
-	
-	private double prop = -100.0;
-	private Point ultimoPonto;
+	/** Componentes representando elementos do programa em execução no Tira-Teima */
 	private Variaveis vars = new Variaveis();
 	private Setas setas = new Setas();
+	private List<Texto> textos = new ArrayList<Texto>();
+
+	/** Conjunto de painéis que compõem o mostrador */
 	private JPanel painelPrincipal;
 	private Painel painelVars = null;
 	private Function function = null;
 	private JPanel tudo = new JPanel();
+	
+	/** Parâmetros de detalhes de visualização do mostrador*/
+	private double prop = -100.0;
 	public static enum zoom {AUMENTA, REINICIA, DIMINUI}
 	public Enum<zoom> acaoZoom = null;
+	private Point ultimoPonto;
 	
 	/**
 	 * Cria um novo mostrador vazio.
@@ -164,6 +172,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 		}
 	}
 	
+	
 	/**
 	 * Modifica o valor de uma variável.
 	 * @param nome   nome da variável a ser modificada.
@@ -196,7 +205,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 	
 	public Object getEstado() {
 		return new EstadoMostrador(
-				new Painel(vars,setas),
+				new Painel(vars,setas,textos),
 				function);
 	}
 
@@ -205,6 +214,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 		painelPrincipal.setVisible(false);
 		
 		painelPrincipal.removeAll();
+		
 		GridBagConstraints gbc = new GridBagConstraints(
 				0, 0,
 				1, 1,
@@ -216,6 +226,7 @@ public class Mostrador extends JScrollPane implements IEstado {
 		
 		if (estado != null) {
 			EstadoMostrador e = (EstadoMostrador) estado;
+
 			painelVars = e.painel;
 			function = e.function;
 			
@@ -462,27 +473,35 @@ public class Mostrador extends JScrollPane implements IEstado {
 		private HashMap<Color, ArrayList<Variavel>> mapaVariaveis;
 		private ArrayList<Janela> janelas = new ArrayList<Janela>();
 		private Setas setas;
+		private List<Texto> textos;
 
 		/**
 		 * Cria um painel. 
 		 * @see #criar()
 		 */
-		public Painel(Variaveis v,Setas setas) {
+		public Painel(Variaveis v,Setas setas, List<Texto> textos) {
 			super();
 			assert (v != null);
 			this.mapaVariaveis = v.criarCopia();
 			this.setas = setas.criarCopia();
+			this.textos = Texto.copiarTextos(textos);
 			setLayout(new GridBagLayout());
 		}
-
 
 		public void adicionarSeta(String nome, Seta s) {
 			if(this.setas == null){
 				this.setas = new Setas();
 			}
 			this.setas.adicionarSeta(nome, s);
+			
 		}
-
+		
+		public void adicionarTexto(Texto texto) {
+			if(this.textos == null){
+				this.textos = new ArrayList<Texto>();
+			}
+			this.textos.add(texto);
+		}
 
 		/**
 		 * Cria os painéis interiores. Chame este método *após* adicionar
@@ -497,28 +516,24 @@ public class Mostrador extends JScrollPane implements IEstado {
 			//Absolute Positioning (sem layout para permitir o posicionamento pelo usuario)
 			tudo.setLayout(null);
 			tudo.removeAll();
-			this.add(tudo);
-			List<Point> coordenadas = new ArrayList<Point>();
-			int maxHeight = 0;
-			int maxWidth = 0;
+			this.add(tudo);			
+
 			Color[] cores = mapaVariaveis.keySet().toArray(new Color[] {});
 			Arrays.sort(cores, comparadorColor);
 			for (Color cor : cores) {
 				Variavel[] vars = mapaVariaveis.get(cor).toArray(new Variavel[] {});
 				Arrays.sort(vars, comparadorVariavel);			
 				for (Variavel v : vars) {
+					
+					//TODO: consertar bounds dos textos olhando para as janelas
 					Janela j = new Janela(v);
 					tudo.add(j);
 					janelas.add(j);
 					j.validate();
 					Dimension size = v.dimensao;
-					if(size == null) size = j.getSize();
-					if(size.height > maxHeight) maxHeight = size.height;
-					if(size.width > maxWidth) maxWidth = size.width;
 					
 					Point point = v.posicao;
 					if(point == null) point = j.getLocation();
-					coordenadas.add(point);
 					
 					j.setPreferredSize(size);
 					j.setLocation(point);
@@ -528,7 +543,6 @@ public class Mostrador extends JScrollPane implements IEstado {
 						tudo.add(seta);
 						seta.validate();
 						Point pontoSeta = seta.calculaPosicao(v);
-						coordenadas.add(pontoSeta);
 						seta.setLocation(pontoSeta);
 						seta.posicaoOriginal = pontoSeta;
 						Integer posicaoSeta;
@@ -543,6 +557,10 @@ public class Mostrador extends JScrollPane implements IEstado {
 					}
 				}
 			}
+			for(Texto t : this.textos){
+				tudo.add(t);
+				t.setLocation(t.posicaoOriginal);
+			}
 		}
 
 		/**
@@ -556,138 +574,121 @@ public class Mostrador extends JScrollPane implements IEstado {
 			for (Seta s : setas.setas.values()){
 				s.setProporcao(prop);
 			}
+			for (Texto t : textos){
+				t.setProporcao(prop);
+			}
 			
-			calculaZoom(janelas,setas, prop);
+			calculaZoom(janelas,setas,textos, prop);
 			this.validate();
 			this.validate();
 			this.validate();
 		}
 	
 		/**
-		 * Reconfigura o tamanho da tela após o zoom por causa do layout de Absolute Positioning
+		 * Reconfigura o tamanho da tela e o posicionamento dos objetos após o 
+		 * zoom por causa do layout de posicionamento absoluto.
 		 * @param janelas
 		 * @param prop
 		 */
-		private void calculaZoom(ArrayList<Janela> janelas, Setas setas, double prop){
+		private void calculaZoom(ArrayList<Janela> janelas, Setas setas, List<Texto> textos, double prop){
 			prop = Math.nextUp(prop);
-			Dimension real = new Dimension(0,0);
-			for (Janela j : janelas){
-				int novaAltura = (int) ((j.getHeight() + j.getY() + 100 ));
-				int novaLargura = (int) (( j.getWidth() + j.getX() + 100));
-				
-				if(novaAltura > real.height) real.height = novaAltura;
-				if(novaLargura > real.width) real.width = novaLargura;
-				
-				//Configura o tamanho visível da tela com todas as variáveis em consideração
-				tudo.setPreferredSize(new Dimension(real));
-				
-				int tmp;
-				//Aumenta a distancia entre as janelas também
-				if(acaoZoom != null){
-					if(j.getLocation().x > 0){
-						tmp = j.getLocation().y;
-						if(acaoZoom == zoom.AUMENTA && prop > 1){
-							j.setLocation((int) (j.posicaoOriginal.x * (prop)), tmp);
-						}
-						
-						if(acaoZoom == zoom.DIMINUI && prop > 1){
-							j.setLocation((int) (j.posicaoOriginal.x * (prop)), tmp);
-						}
-					}
-						
-					if(j.getLocation().y > 0){
-						tmp = j.getLocation().x;
-						if(acaoZoom == zoom.AUMENTA && prop > 1){
-							j.setLocation(tmp, (int) (j.posicaoOriginal.y * (prop)));
-						}
-						if(acaoZoom == zoom.DIMINUI && prop > 1){
-							j.setLocation(tmp, (int) (j.posicaoOriginal.y * (prop)));
-						}
-					}
-					
-					//Reset de zoom
-					if(acaoZoom == zoom.REINICIA){
-						if(j.getVariavel().posicao != null)
-							j.setLocation(j.getVariavel().posicao);
-					}
-					
-				//Atualizacao se refere a uma nova tela. Manter zoom escolhido
-				}else{
-					if(j.getLocation().x > 0){
-						tmp = j.getLocation().y;
-						if(prop > 1)
-							j.setLocation((int) (j.getLocation().x * (prop)), tmp);
-					}
-						
-					if(j.getLocation().y > 0){
-						tmp = j.getLocation().x;
-						if(prop > 1)
-							j.setLocation(tmp, (int) (j.getLocation().y * (prop)));
-					}
-					
-					//Reset de zoom
-					if(prop == 1){
-						if(j.getVariavel().posicao != null)
-							j.setLocation(j.getVariavel().posicao);
-						else
-							j.setLocation(j.getVariavel().getLocation());
-					}
-				}
-				
+			Dimension tamanhoReal = new Dimension(0,0);
+			for (Janela j : janelas){				
+				recalculaTamanhoTudo(tamanhoReal, j);				
+				alteraPosicaoParaZoom(j,j.posicaoOriginal,prop);				
 			}
-			for (Seta s : setas.setas.values()){				
-				int tmp;
-				//Aumenta a distancia entre as janelas também
-				if(acaoZoom != null){
-					if(s.getLocation().x > 0){
-						tmp = s.getLocation().y;
-						if(acaoZoom == zoom.AUMENTA && prop > 1){
-							s.setLocation((int) (s.posicaoOriginal.x * (prop)), tmp);
-						}
-						
-						if(acaoZoom == zoom.DIMINUI && prop > 1){
-							s.setLocation((int) (s.posicaoOriginal.x * (prop)), tmp);
-						}
-					}
-						
-					if(s.getLocation().y > 0){
-						tmp = s.getLocation().x;
-						if(acaoZoom == zoom.AUMENTA && prop > 1){
-							s.setLocation(tmp, (int) (s.posicaoOriginal.y * (prop)));
-						}
-						if(acaoZoom == zoom.DIMINUI && prop > 1){
-							s.setLocation(tmp, (int) (s.posicaoOriginal.y * (prop)));
-						}
-					}
-					
-					//Reset de zoom
-					if(acaoZoom == zoom.REINICIA){
-						s.setLocation(s.posicaoOriginal);
-					}
-					
-				//Atualizacao se refere a uma nova tela. Manter zoom escolhido
-				}else{
-					if(s.getLocation().x > 0){
-						tmp = s.getLocation().y;
-						if(prop > 1)
-							s.setLocation((int) (s.getLocation().x * (prop)), tmp);
-					}
-						
-					if(s.getLocation().y > 0){
-						tmp = s.getLocation().x;
-						if(prop > 1)
-							s.setLocation(tmp, (int) (s.getLocation().y * (prop)));
-					}
-					
-					//Reset de zoom
-					if(prop == 1){
-						s.setLocation(s.posicaoOriginal);
-					}
-				}				
+			for (Seta s : setas.setas.values()){
+				recalculaTamanhoTudo(tamanhoReal, s);
+				alteraPosicaoParaZoom(s, s.posicaoOriginal, prop);								
 			}	
+			for(Texto t : textos){
+				recalculaTamanhoTudo(tamanhoReal,t);
+				alteraPosicaoParaZoom(t, t.posicaoOriginal, prop);
+			}
+			//Configura o tamanho visível da tela com todas as variáveis em consideração
+			tudo.setPreferredSize(new Dimension(tamanhoReal));
 			acaoZoom = null;
 			validate();
 			repaint();
+		}
+
+		/**
+		 * Altera a posicao de um componente para se adaptar ao zoom. 
+		 * Ele aumenta o x e o y proporcionalmente ao paramentro "proporcao"
+		 * passado.
+		 * @param componente - o que sera reajustado (ou nao)
+		 * @param posicaoOriginal - posicao original do componente
+		 * @param proporcao - proporcao atual
+		 */
+		private void alteraPosicaoParaZoom(JComponent componente, Point posicaoOriginal, Double proporcao) {
+			int tmp;
+			//Aumenta a distancia entre as janelas também
+			if(acaoZoom != null){
+				if(componente.getLocation().x > 0){
+					tmp = componente.getLocation().y;
+					if(acaoZoom == zoom.AUMENTA && proporcao > 1){
+						componente.setLocation((int) (posicaoOriginal.x * (proporcao)), tmp);
+					}
+					
+					if(acaoZoom == zoom.DIMINUI && proporcao > 1){
+						componente.setLocation((int) (posicaoOriginal.x * (proporcao)), tmp);
+					}
+				}
+					
+				if(componente.getLocation().y > 0){
+					tmp = componente.getLocation().x;
+					if(acaoZoom == zoom.AUMENTA && proporcao > 1){
+						componente.setLocation(tmp, (int) (posicaoOriginal.y * (proporcao)));
+					}
+					if(acaoZoom == zoom.DIMINUI && proporcao > 1){
+						componente.setLocation(tmp, (int) (posicaoOriginal.y * (proporcao)));
+					}
+				}
+				
+				//Reset de zoom
+				if(acaoZoom == zoom.REINICIA){
+					componente.setLocation(posicaoOriginal);
+				}
+				
+			//Atualizacao se refere a uma nova tela. Manter zoom escolhido
+			}else{
+				if(componente.getLocation().x > 0){
+					tmp = componente.getLocation().y;
+					if(proporcao > 1)
+						componente.setLocation((int) (componente.getLocation().x * (proporcao)), tmp);
+				}
+					
+				if(componente.getLocation().y > 0){
+					tmp = componente.getLocation().x;
+					if(proporcao > 1)
+						componente.setLocation(tmp, (int) (componente.getLocation().y * (proporcao)));
+				}
+				
+				//Reset de zoom
+				if(proporcao == 1){
+					componente.setLocation(posicaoOriginal);
+				}
+			}
+		}
+
+		/**
+		 * Altera o tamanho real do painel "tudo", que contem os elementos
+		 * graficos do mostrador. 
+		 * Se encontrar um tamanho maior, reestabelece o valor real, que sera 
+		 * usado como parametro para determinar o tamanho do painel "tudo" 
+		 * @param real
+		 * @param componente
+		 */
+		private void recalculaTamanhoTudo(Dimension tamanhoReal, JComponent componente) {
+			int novaAltura = (int) ((componente.getHeight() + componente.getY() + 100 ));
+			int novaLargura = (int) (( componente.getWidth() + componente.getX() + 100));
+			
+			if(novaAltura > tamanhoReal.height) tamanhoReal.height = novaAltura;
+			if(novaLargura > tamanhoReal.width) tamanhoReal.width = novaLargura;
+		}
+		
+		public void setTextos(List<Texto> textos) {
+			this.textos = textos;
 		}
 	}
 	
@@ -717,5 +718,14 @@ public class Mostrador extends JScrollPane implements IEstado {
 
 	public Integer quantidadeDeVariaveis() {
 		return this.painelVars.janelas.size();
+	}
+
+	public void adicionarTexto(Texto texto) {
+		if (function != null) {
+			function.adicionarTexto(texto);
+		} else {
+			this.textos.add(texto);
+		}
+				
 	}
 }

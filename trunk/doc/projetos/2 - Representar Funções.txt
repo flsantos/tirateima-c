@@ -26,6 +26,4 @@ Obs2: quando o retorno for void, esse título será chamado de procedimento ao i
 
 de modo que com esse comando o subpainel some, junto com qualquer elemento pertencente ao escopo da função.
 
-- Um ponteiro deverá ser declarado normalmente, porém poderá ser inicializado passando-se como parâmetro o que seria o "endereço" de uma variável pré-declarada.
-
-2 start foo(parametroPassado);
+- Para facilitar a representação de ponteiros como parâmetros de entrada, haverá um comando de inserção de texto, que representará a referência para a variável.  

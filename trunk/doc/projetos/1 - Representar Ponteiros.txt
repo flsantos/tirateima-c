@@ -16,15 +16,19 @@ Obs: O comando é igual ao de outras variáveis, mas tem a diferença de ser do 
 
 5 p1 aponta(cima,30);
 
-Obs1: esse aponta cria uma seta para a direção indicada, que pode ser (cima, baixo, esquerda, direita). Essa seta ficará no tamanho indicado pelo número seguinte (no exemplo, tamanho 30). 
+sendo que quando um ponteiro estiver dentro de uma função e quiser referenciar uma variável fora dessa função, poderá se usar o comando "insere_texto", e escrever o nome de uma variável que será referenciada.
 
-Obs2: por motivo de simplificação, esse ponteiro não poderá receber uma variável, pois isso complicaria a l�gica de desenho da seta, que deveria se auto-ajustar para apontar para a variável destino.
 
 - Para representar alocação de memória, o usuário deverá combinar uma lista de comandos, fazendo:
 
 6 {p1 aponta(baixo,30);int num1 cor(150,150,150) tamanho(200,30) posicao (20,90);}
 
-Obs3: Segue um comparativo entre o C e o Tira-Teima(TT) em relação a como usar ponteiros.
+Obs1: esse aponta cria uma seta para a direção indicada, que pode ser (cima, baixo, esquerda, direita). Essa seta ficará no tamanho indicado pelo número seguinte (no exemplo, tamanho 30). 
+
+Obs2: por motivo de simplificação, esse ponteiro não poderá receber uma variável, pois isso complicaria a l�gica de desenho da seta, que deveria se auto-ajustar para apontar para a variável destino.
+
+
+- Segue um comparativo entre o C e o Tira-Teima(TT) em relação a como usar ponteiros:
 
 # Declarar ponteiro:
 
@@ -33,7 +37,6 @@ TT: pointer p1 cor(0,0,0) tamanho(50,20) posicao(10,10);
 
 Consequência no TT: cria-se uma variável do tipo pointer.
 
-
 # Apontar ponteiro para variável:
 
 C: p1 = &a;
@@ -41,18 +44,16 @@ TT: p1 aponta(cima,30);
 
 Consequência no TT: cria-se uma seta apontando para a direção informada.
 
-
 # Declaração de funções e passagem de endereço de variável como parâmetro:
 
 C:
 function foo(int * p1); 
 foo(&a);
 TT: 
-foo (pointer p1 cor(0,0,0) tamanho(50,20) posicao(10,10);) : void;
-foo(endereco a); //desde que se tenha declarado foo como recebendo um ponteiro.
+foo () : void;
+foo(); pointer p cor(150,150,255) tamanho(50,20) posicao (20,60); a aponta(cima,20); insere_texto conteudo("x") tamanho(12) posicao(34,10);
 
 Consequência no TT: cria-se um ponteiro com uma seta apontando para um texto com o nome da variável.
-
 
 # Anular ponteiro:
 
@@ -61,18 +62,15 @@ TT: p1 = null;
 
 Consequência no TT: cria-se uma bolinha no meio da variável indicando ponteiro nulo.
 
-
 # Acessar valor da região de memória apontada pelo ponteiro:
 
 C: *p1 = 10;
 TT: não possui.
 
-
 # Alocar memória para o ponteiro:
 
 C: malloc(p1,sizeof(int));
 TT: não possui;
-
 
 # Liberar ponteiro:
 

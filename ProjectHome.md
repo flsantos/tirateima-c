@@ -1,0 +1,1 @@
+Programa que auxilia no ensino de C por meio de um tiratemia.
